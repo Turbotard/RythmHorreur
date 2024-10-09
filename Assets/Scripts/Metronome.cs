@@ -151,7 +151,7 @@ public class UserExperienceMetronome : MonoBehaviour
     /// Appelé lorsque le joueur appuie sur la touche au bon moment.
     /// Augmente le score et change la couleur de l'indicateur visuel.
     /// </summary>
-    void OnCorrectKeyPress()
+    public void OnCorrectKeyPress()
     {
         Debug.Log("Touche appuyée au bon moment !");
         score += 10;
