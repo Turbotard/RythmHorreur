@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -72,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private float currentBpm; // BPM actuel du métronome.
     private float interval; // Intervalle en secondes entre chaque battement du métronome.
     private float timer; // Timer pour suivre le temps écoulé entre les battements.
-    private bool canPressKey; // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
+    private bool canPressKey; // Indique si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
     private bool hasPressedKey; // Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
     private int score = 50; // Score actuel du joueur.
     private int minScore = 0;
@@ -82,10 +81,8 @@ public class PlayerMovement : MonoBehaviour
     private int yellowIntervale = 40; // Seuil de la zone jaune
     private int redIntervale = 20; // Seuil de la zone rouge
 
-    // Pour le flash
-    public Canvas flashImage; // Image pour le flash blanc
-    public float flashDuration = 0.5f; // Durée du flash en secondes
-    private bool isFlashing = false; // Indique si le flash est actif
+    // Référence au script Screamer pour gérer le screamer indépendamment.
+    public Screamer screamer;
 
     private void Awake()
     {
@@ -110,9 +107,6 @@ public class PlayerMovement : MonoBehaviour
         // Mettre à jour les textes UI
         UpdateBpmText();
         UpdateScoreText();
-
-        // Démarrer la coroutine pour gérer les chances de flash
-        StartCoroutine(CheckFlashChance());
     }
 
     void Update()
@@ -174,160 +168,123 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Déplace le joueur vers l'avant d'une certaine distance
-        void StepForward()
+    void StepForward()
+    {
+        playerRb.MovePosition(playerRb.position + new Vector2(stepDistance, 0));
+    }
+
+    // Appelé à chaque battement du métronome
+    void OnMetronomeBeat()
+    {
+        // Jouer le son du métronome
+        if (metronomeTickSound != null)
         {
-            playerRb.MovePosition(playerRb.position + new Vector2(stepDistance, 0));
+            metronomeTickSound.Play();
         }
 
-        // Appelé à chaque battement du métronome
-        void OnMetronomeBeat()
+        // Remettre la couleur de l'indicateur à neutre
+        if (beatIndicator != null)
         {
-            // Jouer le son du métronome
-            if (metronomeTickSound != null)
-            {
-                metronomeTickSound.Play();
-            }
-
-            // Remettre la couleur de l'indicateur à neutre
-            if (beatIndicator != null)
-            {
-                beatIndicator.color = neutralColor;
-            }
-
-            // Mettre à jour l'affichage du BPM
-            UpdateBpmText();
+            beatIndicator.color = neutralColor;
         }
 
-        // Appelé lorsque le joueur appuie au bon moment
-        void OnCorrectKeyPress()
+        // Mettre à jour l'affichage du BPM
+        UpdateBpmText();
+    }
+
+    // Appelé lorsque le joueur appuie au bon moment
+    void OnCorrectKeyPress()
+    {
+        score += 10;
+        UpdateScoreText();
+
+        // Changer la couleur de l'indicateur pour un appui correct
+        if (beatIndicator != null)
         {
-            score += 10;
+            beatIndicator.color = correctColor;
+        }
+
+        hasPressedKey = true;
+        canPressKey = false;
+    }
+
+    // Appelé lorsque le joueur appuie au mauvais moment
+    void OnIncorrectKeyPress()
+    {
+        score -= 2;
+        UpdateScoreText();
+
+        // Changer la couleur de l'indicateur pour un appui incorrect
+        if (beatIndicator != null)
+        {
+            beatIndicator.color = wrongColor;
+        }
+    }
+
+    // Vérifie si le joueur a manqué d'appuyer sur une touche
+    void CheckMissedKeyPress()
+    {
+        if (!hasPressedKey)
+        {
+            score -= 5;
             UpdateScoreText();
 
-            // Changer la couleur de l'indicateur pour un appui correct
-            if (beatIndicator != null)
-            {
-                beatIndicator.color = correctColor;
-            }
-
-            hasPressedKey = true;
-            canPressKey = false;
-        }
-
-        // Appelé lorsque le joueur appuie au mauvais moment
-        void OnIncorrectKeyPress()
-        {
-            score -= 2;
-            UpdateScoreText();
-
-            // Changer la couleur de l'indicateur pour un appui incorrect
+            // Changer la couleur de l'indicateur pour un appui manqué
             if (beatIndicator != null)
             {
                 beatIndicator.color = wrongColor;
             }
         }
 
-        // Vérifie si le joueur a manqué d'appuyer sur une touche
-        void CheckMissedKeyPress()
+        canPressKey = false;
+    }
+
+    // Met à jour le texte du BPM dans l'UI
+    void UpdateBpmText()
+    {
+        if (bpmText != null)
         {
-            if (!hasPressedKey)
-            {
-                score -= 5;
-                UpdateScoreText();
-
-                // Changer la couleur de l'indicateur pour un appui manqué
-                if (beatIndicator != null)
-                {
-                    beatIndicator.color = wrongColor;
-                }
-            }
-
-            canPressKey = false;
-        }
-
-        // Met à jour le texte du BPM dans l'UI
-        void UpdateBpmText()
-        {
-            if (bpmText != null)
-            {
-                bpmText.text = "BPM: " + Mathf.RoundToInt(currentBpm).ToString();
-            }
-        }
-
-        // Met à jour le texte du score dans l'UI
-        void UpdateScoreText()
-        {
-            if (scoreText != null)
-            {
-                scoreText.text = "Score: " + score.ToString();
-            }
-        }
-
-        // Réinitialise le jeu en cas de game over
-        void Gameover()
-        {
-            score = 50;
-            currentBpm = startBpm;
-            interval = 60f / currentBpm;
-            timer = 0f;
-            canPressKey = false;
-            hasPressedKey = false;
-
-            if (beatIndicator != null)
-            {
-                beatIndicator.color = neutralColor;
-            }
-
-            UpdateBpmText();
-            UpdateScoreText();
-        }
-
-        // Fonction pour redémarrer le jeu
-        void RestartGame()
-        {
-            SceneManager.LoadScene("Game");
-        }
-
-
-        // Coroutine pour vérifier les chances de déclencher un flash
-        IEnumerator CheckFlashChance()
-        {
-            while (true)
-            {
-                // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %
-                if (score < redIntervale)
-                {
-                    yield return new WaitForSeconds(3f);
-                    if (UnityEngine.Random.value < 1f && !isFlashing)
-                    {
-                        StartCoroutine(Flash());
-                    }
-
-                }
-                // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %
-                else if (score < yellowIntervale)
-                {
-                    yield return new WaitForSeconds(10f);
-                    if (UnityEngine.Random.value < 0.25f && !isFlashing)
-                    {
-                        StartCoroutine(Flash());
-                    }
-                }
-                // Zone verte : aucun flash
-                else
-                {
-                    yield return null;
-                }
-            }
-        }
-
-        // Coroutine pour afficher le flash
-        IEnumerator Flash()
-        {
-            isFlashing = true;
-            flashImage.gameObject.SetActive(true); // Afficher l'image de flash
-            yield return new WaitForSeconds(flashDuration);
-            flashImage.gameObject.SetActive(false); // Cacher l'image de flash
-            isFlashing = false;
+            bpmText.text = "BPM: " + Mathf.RoundToInt(currentBpm).ToString();
         }
     }
+
+    // Met à jour le texte du score dans l'UI et le transmet au script Screamer
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString();
+        }
+
+        // Mettre à jour le score dans le script Screamer
+        if (screamer != null)
+        {
+            screamer.UpdateScore(score);
+        }
+    }
+
+    // Réinitialise le jeu en cas de game over
+    void Gameover()
+    {
+        score = 50;
+        currentBpm = startBpm;
+        interval = 60f / currentBpm;
+        timer = 0f;
+        canPressKey = false;
+        hasPressedKey = false;
+
+        if (beatIndicator != null)
+        {
+            beatIndicator.color = neutralColor;
+        }
+
+        UpdateBpmText();
+        UpdateScoreText();
+    }
+
+    // Fonction pour redémarrer le jeu
+    void RestartGame()
+    {
+        SceneManager.LoadScene("Game");
+    }
+}
