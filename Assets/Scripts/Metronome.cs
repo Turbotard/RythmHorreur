@@ -69,8 +69,8 @@ public class UserExperienceMetronome : MonoBehaviour
     private float timer;       // Timer pour suivre le temps écoulé entre les battements.
     private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
     private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
-    private int score = 0;     // Score actuel du joueur.
-
+    private int score = 50;     // Score actuel du joueur.
+    
     /// <summary>
     /// Initialise les variables et configure l'interface utilisateur au démarrage du script.
     /// </summary>
@@ -151,7 +151,7 @@ public class UserExperienceMetronome : MonoBehaviour
     /// Appelé lorsque le joueur appuie sur la touche au bon moment.
     /// Augmente le score et change la couleur de l'indicateur visuel.
     /// </summary>
-    void OnCorrectKeyPress()
+    public void OnCorrectKeyPress()
     {
         Debug.Log("Touche appuyée au bon moment !");
         score += 10;
@@ -223,5 +223,10 @@ public class UserExperienceMetronome : MonoBehaviour
         {
             scoreText.text = "Score: " + score.ToString();
         }
+    }
+    
+    public int GetScore()
+    {
+        return score;
     }
 }
