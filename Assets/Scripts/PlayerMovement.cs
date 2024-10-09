@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// BPM initial du métronome.
     /// </summary>
+    private Animator anim;
     public float startBpm = 90f;
 
     /// <summary>
@@ -92,7 +93,10 @@ public class PlayerMovement : MonoBehaviour
         UpdateScoreText();
     } 
     
-
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
     // Update is called once per frame
     void Update()
     {
