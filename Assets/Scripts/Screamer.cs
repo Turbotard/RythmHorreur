@@ -59,11 +59,19 @@ public class Screamer : MonoBehaviour
             Debug.LogError("Aucun AudioSource trouvé sur le GameObject. Veuillez en ajouter un.");
         }
     }
-
-    // Fonction pour mettre à jour le score depuis PlayerMovement.
-    public void UpdateScore(int newScore)
+    // Update is called once per frame 
+    private void Update()
     {
-        playerScore = newScore;
+        // Mettre à jour le score depuis le script Metronome.
+        if (metronome != null)
+        {
+            playerScore = metronome.GetScore();
+            Debug.Log("Player Score : " + playerScore);
+        }
+        else
+        {
+            Debug.LogError("Aucun script Metronome trouvé. Veuillez ajouter un script Metronome au GameObject.");
+        }
     }
 
     // Coroutine pour vérifier les chances de déclencher un flash de screamer.

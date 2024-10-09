@@ -70,7 +70,7 @@ public class UserExperienceMetronome : MonoBehaviour
     private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
     private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
     private int score = 50;     // Score actuel du joueur.
-
+    
     /// <summary>
     /// Initialise les variables et configure l'interface utilisateur au démarrage du script.
     /// </summary>
