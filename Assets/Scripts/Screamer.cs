@@ -1,11 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Screamer : MonoBehaviour
 {
     /// <summary>
-    /// Le score actuel du joueur, mis à jour depuis PlayerMovement.
+    /// Le score actuel du joueur, mis à jour depuis Metronome.
     /// </summary>
     public int playerScore;
 
@@ -13,7 +14,7 @@ public class Screamer : MonoBehaviour
     /// Seuils pour déclencher les événements de screamer.
     /// </summary>
     public int redIntervale = 20; // Seuil de la zone rouge
-    public int yellowIntervale = 40; // Seuil de la zone jaune
+    public int yellowIntervale = 50; // Seuil de la zone jaune
 
     /// <summary>
     /// Image utilisée pour le screamer.
@@ -25,15 +26,41 @@ public class Screamer : MonoBehaviour
     /// </summary>
     public float flashDuration = 0.5f;
 
+    /// <summary>
+    /// Liste de sons pour la zone rouge.
+    /// </summary>
+    public List<AudioClip> redZoneSounds;
+
+    /// <summary>
+    /// Liste de sons pour la zone jaune.
+    /// </summary>
+    public List<AudioClip> yellowZoneSounds;
+
+    /// <summary>
+    /// AudioSource pour jouer les sons.
+    /// </summary>
+    private AudioSource audioSource;
+
     private bool isFlashing = false;
+    
+    [SerializeField] private UserExperienceMetronome metronome;
+    
+    
 
     private void Start()
     {
         // Démarrer la coroutine pour gérer les chances de screamer.
         StartCoroutine(CheckFlashChance());
+
+        // Récupérer l'AudioSource attachée au GameObject.
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("Aucun AudioSource trouvé sur le GameObject. Veuillez en ajouter un.");
+        }
     }
 
-    // Fonction pour mettre à jour le score depuis PlayerMovement
+    // Fonction pour mettre à jour le score depuis PlayerMovement.
     public void UpdateScore(int newScore)
     {
         playerScore = newScore;
@@ -44,22 +71,23 @@ public class Screamer : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(playerScore);
             // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
             if (playerScore >= 0 && playerScore < redIntervale)
             {
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(10f);
                 if (UnityEngine.Random.value < 0.5f && !isFlashing)
                 {
-                    StartCoroutine(Flash());
+                    StartCoroutine(Flash(redZoneSounds));
                 }
             }
             // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %.
             else if (playerScore >= redIntervale && playerScore < yellowIntervale)
             {
-                yield return new WaitForSeconds(10f);
-                if (UnityEngine.Random.value < 0.25f && !isFlashing)
+                yield return new WaitForSeconds(0.5f);
+                if (UnityEngine.Random.value < 1f && !isFlashing)
                 {
-                    StartCoroutine(Flash());
+                    StartCoroutine(Flash(yellowZoneSounds));
                 }
             }
             // Zone verte : aucun flash.
@@ -70,13 +98,27 @@ public class Screamer : MonoBehaviour
         }
     }
 
-    // Coroutine pour afficher le flash de screamer.
-    IEnumerator Flash()
+    // Coroutine pour afficher le flash de screamer et jouer un son.
+    IEnumerator Flash(List<AudioClip> sounds)
     {
         isFlashing = true;
-        flashImage.gameObject.SetActive(true); // Afficher le screamer.
+
+        // Afficher le screamer.
+        flashImage.gameObject.SetActive(true);
+
+        // Jouer un son aléatoire depuis la liste fournie.
+        if (sounds.Count > 0 && audioSource != null)
+        {
+            AudioClip randomSound = sounds[UnityEngine.Random.Range(0, sounds.Count)];
+            audioSource.PlayOneShot(randomSound);
+        }
+
+        // Attendre la durée du flash.
         yield return new WaitForSeconds(flashDuration);
-        flashImage.gameObject.SetActive(false); // Masquer le screamer.
+
+        // Masquer le screamer.
+        flashImage.gameObject.SetActive(false);
+
         isFlashing = false;
     }
 }

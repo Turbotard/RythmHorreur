@@ -18,6 +18,7 @@ public class GameOver : MonoBehaviour
     }
     
     // Réinitialise le jeu en cas de game over
+    /*
     public void GameOver()
     {
         score = 50;
@@ -42,4 +43,5 @@ public class GameOver : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+    */
 }

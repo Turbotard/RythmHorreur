@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public static bool isGameOver;
     public Screamer screamer; // Référence au script Screamer pour gérer le screamer indépendamment.
     public UserExperienceMetronome metronome;
-    public GameOver gameover;
+    //public GameOver gameover;
     private void Awake()
     {
         isGameOver = false;
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (isGameOver)
         {
-            gameover.GameOver();
+           // gameover.GameOver();
         }
     }
 

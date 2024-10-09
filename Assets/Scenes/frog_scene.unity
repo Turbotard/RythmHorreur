@@ -423,17 +423,9 @@ MonoBehaviour:
   playerRb: {fileID: 416629755}
   input: 0
   stepDistance: 1
-  startBpm: 90
-  bpmIncreaseRate: 0.5
-  maxBpm: 180
-  toleranceWindow: 10
-  metronomeTickSound: {fileID: 0}
-  bpmText: {fileID: 0}
-  scoreText: {fileID: 0}
-  beatIndicator: {fileID: 0}
-  correctColor: {r: 0, g: 1, b: 0, a: 1}
-  wrongColor: {r: 1, g: 0, b: 0, a: 1}
-  neutralColor: {r: 1, g: 1, b: 1, a: 1}
+  screamer: {fileID: 0}
+  metronome: {fileID: 0}
+  gameover: {fileID: 0}
 --- !u!1 &789082650
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,6 +566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1282655666}
   - component: {fileID: 1282655665}
+  - component: {fileID: 1282655667}
   m_Layer: 0
   m_Name: metronomeTickSound
   m_TagString: Untagged
@@ -692,6 +685,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1282655667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282655664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60630bd5622614f748c45f9f3c3a2185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startBpm: 90
+  bpmIncreaseRate: 0.5
+  maxBpm: 180
+  toleranceWindow: 25
+  metronomeTickSound: {fileID: 1282655665}
+  bpmText: {fileID: 0}
+  scoreText: {fileID: 0}
+  beatIndicator: {fileID: 0}
+  correctColor: {r: 0, g: 1, b: 0, a: 1}
+  wrongColor: {r: 1, g: 0, b: 0, a: 1}
+  neutralColor: {r: 1, g: 1, b: 1, a: 1}
+  score: 50
 --- !u!1 &1436687557
 GameObject:
   m_ObjectHideFlags: 0
