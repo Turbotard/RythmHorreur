@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,40 +12,76 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D playerRb;
     public float input;
     public float stepDistance;   // Distance parcourue à chaque "pas"
-    private string lastKey = ""; // Stocke la dernière touche appuyée
+    private string lastKey = "";      // Stocke la dernière touche appuyée
+    /// <summary>
+    /// BPM initial du métronome.
+    /// </summary>
+    public float startBpm = 90f;
 
-    // Paramètres du métronome
-    public float startBpm = 90f; // BPM initial du métronome
-    public float bpmIncreaseRate = 0.5f; // Vitesse d'augmentation du BPM
-    public float maxBpm = 180f; // BPM maximal
-    public float toleranceWindow = 0.5f; // Fenêtre de tolérance pour les touches
+    /// <summary>
+    /// Vitesse d'augmentation du BPM en BPM par seconde.
+    /// </summary>
+    public float bpmIncreaseRate = 0.5f;
 
-    // Audio et UI
-    public AudioSource metronomeTickSound; // Son du métronome
-    public TMP_Text bpmText; // Texte UI affichant le BPM
-    public TMP_Text scoreText; // Texte UI affichant le score
-    public Image beatIndicator; // Indicateur visuel du battement
-    public Color correctColor = Color.green; // Couleur pour un appui correct
-    public Color wrongColor = Color.red; // Couleur pour un appui incorrect
-    public Color neutralColor = Color.white; // Couleur par défaut de l'indicateur
+    /// <summary>
+    /// BPM maximal que le métronome peut atteindre.
+    /// </summary>
+    public float maxBpm = 180f;
 
-    // Variables pour la gestion du BPM et des battements
-    private float currentBpm; // BPM actuel
-    private float interval; // Intervalle entre les battements
-    private float timer; // Timer pour le suivi des battements
-    private bool canPressKey; // Indique si le joueur peut appuyer sur une touche
-    private bool hasPressedKey; // Indique si le joueur a appuyé sur une touche
-    private int score = 60; // Score initial du joueur
-    private int minScore = 0; // Score minimum
-    private int maxScore = 100; // Score maximum
-    private int greenIntervale = 70; // Seuil de la zone verte
-    private int yellowIntervale = 40; // Seuil de la zone jaune
-    private int redIntervale = 20; // Seuil de la zone rouge
+    /// <summary>
+    /// Fenêtre de tolérance en secondes pendant laquelle le joueur peut appuyer sur la touche.
+    /// </summary>
+    public float toleranceWindow = 0.5f;
 
-    // Pour le flash
-    public Canvas flashImage; // Image pour le flash blanc
-    public float flashDuration = 0.5f; // Durée du flash en secondes
-    private bool isFlashing = false; // Indique si le flash est actif
+    /// <summary>
+    /// Source audio pour jouer le son du métronome à chaque battement.
+    /// </summary>
+    public AudioSource metronomeTickSound;
+
+    /// <summary>
+    /// Texte UI affichant le BPM actuel.
+    /// </summary>
+    public TMP_Text bpmText;
+
+    /// <summary>
+    /// Texte UI affichant le score du joueur.
+    /// </summary>
+    public TMP_Text scoreText;
+
+    /// <summary>
+    /// Indicateur visuel du battement, utilisé pour signaler au joueur l'état du métronome.
+    /// </summary>
+    public Image beatIndicator;
+
+    /// <summary>
+    /// Couleur de l'indicateur visuel lorsque le joueur appuie au bon moment.
+    /// </summary>
+    public Color correctColor = Color.green;
+
+    /// <summary>
+    /// Couleur de l'indicateur visuel lorsque le joueur appuie au mauvais moment ou rate le battement.
+    /// </summary>
+    public Color wrongColor = Color.red;
+
+    /// <summary>
+    /// Couleur par défaut de l'indicateur visuel entre les battements.
+    /// </summary>
+    public Color neutralColor = Color.white;
+
+    private float currentBpm;  // BPM actuel du métronome.
+    private float interval;    // Intervalle en secondes entre chaque battement du métronome.
+    private float timer;       // Timer pour suivre le temps écoulé entre les battements.
+    private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
+    private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
+    private int score = 50;     // Score actuel du joueur.
+    private int minScore = 0;
+    private int maxScore = 100;
+    public static bool isGameOver;
+
+    private void Awake()
+    {
+        isGameOver = false;
+    }
 
     void Start()
     {
@@ -97,29 +134,29 @@ public class PlayerMovement : MonoBehaviour
         // Gérer l'appui sur les touches
         if (canPressKey)
         {
-            if (Input.GetKeyDown(KeyCode.A) && (lastKey == "d" || lastKey == ""))
-            {
-                lastKey = "q";
-                StepForward();
-                OnCorrectKeyPress();
-            }
-            else if (Input.GetKeyDown(KeyCode.D) && lastKey == "q")
-            {
-                lastKey = "d";
-                StepForward();
-                OnCorrectKeyPress();
-            }
-            else if (!canPressKey && Input.GetKeyDown(KeyCode.Space))
-            {
-                OnIncorrectKeyPress();
-            }
-
-            // Vérifier la condition de game over
-            if (score <= minScore)
-            {
-                Gameover();
-            }
+            if (Input.GetKeyDown(KeyCode.A) && lastKey == "d" || Input.GetKeyDown(KeyCode.A) && lastKey == ""){
+            lastKey = "q";
+            StepForward();
+            Debug.Log(currentBpm);
+            OnCorrectKeyPress();
         }
+        else if (Input.GetKeyDown(KeyCode.D) && lastKey == "q"){
+            lastKey = "d";
+            StepForward();
+            Debug.Log(currentBpm);
+            OnCorrectKeyPress();
+        }
+        else if (!canPressKey && Input.GetKeyDown(KeyCode.Space))
+        {
+            OnIncorrectKeyPress();
+        }
+        if (isGameOver){
+            Gameover();
+        }    
+        else if(!isGameOver)
+        {
+            Debug.Log(score);
+        }    
     }
 
     // Déplace le joueur vers l'avant d'une certaine distance
@@ -236,6 +273,7 @@ public class PlayerMovement : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+
 
     // Coroutine pour vérifier les chances de déclencher un flash
     IEnumerator CheckFlashChance()
