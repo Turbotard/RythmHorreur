@@ -27,7 +27,7 @@ public class UserExperienceMetronome : MonoBehaviour
     /// <summary>
     /// Fenêtre de tolérance en secondes pendant laquelle le joueur peut appuyer sur la touche.
     /// </summary>
-    public float toleranceWindow = 0.5f;
+    public float toleranceWindow = 25f;
 
     /// <summary>
     /// Source audio pour jouer le son du métronome à chaque battement.
