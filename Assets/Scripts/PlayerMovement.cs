@@ -3,106 +3,84 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Composant Rigidbody2D pour déplacer le joueur
     public Rigidbody2D playerRb;
     public float input;
     public float stepDistance;   // Distance parcourue à chaque "pas"
-    private string lastKey = "";      // Stocke la dernière touche appuyée
-    /// <summary>
-    /// BPM initial du métronome.
-    /// </summary>
-    public float startBpm = 90f;
+    private string lastKey = ""; // Stocke la dernière touche appuyée
 
-    /// <summary>
-    /// Vitesse d'augmentation du BPM en BPM par seconde.
-    /// </summary>
-    public float bpmIncreaseRate = 0.5f;
+    // Paramètres du métronome
+    public float startBpm = 90f; // BPM initial du métronome
+    public float bpmIncreaseRate = 0.5f; // Vitesse d'augmentation du BPM
+    public float maxBpm = 180f; // BPM maximal
+    public float toleranceWindow = 0.5f; // Fenêtre de tolérance pour les touches
 
-    /// <summary>
-    /// BPM maximal que le métronome peut atteindre.
-    /// </summary>
-    public float maxBpm = 180f;
+    // Audio et UI
+    public AudioSource metronomeTickSound; // Son du métronome
+    public TMP_Text bpmText; // Texte UI affichant le BPM
+    public TMP_Text scoreText; // Texte UI affichant le score
+    public Image beatIndicator; // Indicateur visuel du battement
+    public Color correctColor = Color.green; // Couleur pour un appui correct
+    public Color wrongColor = Color.red; // Couleur pour un appui incorrect
+    public Color neutralColor = Color.white; // Couleur par défaut de l'indicateur
 
-    /// <summary>
-    /// Fenêtre de tolérance en secondes pendant laquelle le joueur peut appuyer sur la touche.
-    /// </summary>
-    public float toleranceWindow = 0.5f;
+    // Variables pour la gestion du BPM et des battements
+    private float currentBpm; // BPM actuel
+    private float interval; // Intervalle entre les battements
+    private float timer; // Timer pour le suivi des battements
+    private bool canPressKey; // Indique si le joueur peut appuyer sur une touche
+    private bool hasPressedKey; // Indique si le joueur a appuyé sur une touche
+    private int score = 60; // Score initial du joueur
+    private int minScore = 0; // Score minimum
+    private int maxScore = 100; // Score maximum
+    private int greenIntervale = 70; // Seuil de la zone verte
+    private int yellowIntervale = 40; // Seuil de la zone jaune
+    private int redIntervale = 20; // Seuil de la zone rouge
 
-    /// <summary>
-    /// Source audio pour jouer le son du métronome à chaque battement.
-    /// </summary>
-    public AudioSource metronomeTickSound;
+    // Pour le flash
+    public Canvas flashImage; // Image pour le flash blanc
+    public float flashDuration = 0.5f; // Durée du flash en secondes
+    private bool isFlashing = false; // Indique si le flash est actif
 
-    /// <summary>
-    /// Texte UI affichant le BPM actuel.
-    /// </summary>
-    public TMP_Text bpmText;
-
-    /// <summary>
-    /// Texte UI affichant le score du joueur.
-    /// </summary>
-    public TMP_Text scoreText;
-
-    /// <summary>
-    /// Indicateur visuel du battement, utilisé pour signaler au joueur l'état du métronome.
-    /// </summary>
-    public Image beatIndicator;
-
-    /// <summary>
-    /// Couleur de l'indicateur visuel lorsque le joueur appuie au bon moment.
-    /// </summary>
-    public Color correctColor = Color.green;
-
-    /// <summary>
-    /// Couleur de l'indicateur visuel lorsque le joueur appuie au mauvais moment ou rate le battement.
-    /// </summary>
-    public Color wrongColor = Color.red;
-
-    /// <summary>
-    /// Couleur par défaut de l'indicateur visuel entre les battements.
-    /// </summary>
-    public Color neutralColor = Color.white;
-
-    private float currentBpm;  // BPM actuel du métronome.
-    private float interval;    // Intervalle en secondes entre chaque battement du métronome.
-    private float timer;       // Timer pour suivre le temps écoulé entre les battements.
-    private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
-    private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
-    private int score = 50;     // Score actuel du joueur.
-    private int minScore = 0;
-    private int maxScore = 100;
-    
-    // Start is called before the first frame update
     void Start()
     {
+        // Initialisation du BPM et du timer
         currentBpm = startBpm;
         interval = 60f / currentBpm;
         timer = 0f;
         canPressKey = false;
         hasPressedKey = false;
 
+        // Définir la couleur initiale de l'indicateur
         if (beatIndicator != null)
         {
             beatIndicator.color = neutralColor;
         }
 
+        // Mettre à jour les textes UI
         UpdateBpmText();
         UpdateScoreText();
-    } 
-    
 
-    // Update is called once per frame
+        // Démarrer la coroutine pour gérer les chances de flash
+        StartCoroutine(CheckFlashChance());
+    }
+
     void Update()
     {
+        // Mise à jour du timer
         timer += Time.deltaTime;
 
+        // Gérer les battements du métronome
         if (timer >= interval)
         {
             OnMetronomeBeat();
             timer -= interval;
 
+            // Augmenter le BPM jusqu'à un maximum
             if (currentBpm < maxBpm)
             {
                 currentBpm += bpmIncreaseRate * Time.deltaTime;
@@ -110,75 +88,72 @@ public class PlayerMovement : MonoBehaviour
                 interval = 60f / currentBpm;
             }
 
+            // Autoriser l'appui sur une touche pendant la fenêtre de tolérance
             canPressKey = true;
             hasPressedKey = false;
             Invoke("CheckMissedKeyPress", toleranceWindow);
         }
 
+        // Gérer l'appui sur les touches
         if (canPressKey)
         {
-            if (Input.GetKeyDown(KeyCode.A) && lastKey == "d" || Input.GetKeyDown(KeyCode.A) && lastKey == ""){
-            lastKey = "q";
-            StepForward();
-            Debug.Log("HellYes !");
-            OnCorrectKeyPress();
+            if (Input.GetKeyDown(KeyCode.A) && (lastKey == "d" || lastKey == ""))
+            {
+                lastKey = "q";
+                StepForward();
+                OnCorrectKeyPress();
+            }
+            else if (Input.GetKeyDown(KeyCode.D) && lastKey == "q")
+            {
+                lastKey = "d";
+                StepForward();
+                OnCorrectKeyPress();
+            }
+            else if (!canPressKey && Input.GetKeyDown(KeyCode.Space))
+            {
+                OnIncorrectKeyPress();
+            }
+
+            // Vérifier la condition de game over
+            if (score <= minScore)
+            {
+                Gameover();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.D) && lastKey == "q"){
-            lastKey = "d";
-            StepForward();
-            Debug.Log("Yes !");
-            OnCorrectKeyPress();
-        }
-        else if (!canPressKey && Input.GetKeyDown(KeyCode.Space))
-        {
-            OnIncorrectKeyPress();
-        }
-        if (score <= minScore){
-            Gameover();
-        }    
-        else if(score >= minScore)
-        {
-            Debug.Log(score);
-        }    
-        
-    }
     }
 
-    // Fonction pour avancer d'un pas
+    // Déplace le joueur vers l'avant d'une certaine distance
     void StepForward()
     {
-        Debug.Log("StepForward called");
-        // Déplace le personnage vers l'avant d'une certaine distance
         playerRb.MovePosition(playerRb.position + new Vector2(stepDistance, 0));
     }
 
-     void OnMetronomeBeat()
+    // Appelé à chaque battement du métronome
+    void OnMetronomeBeat()
     {
-        Debug.Log("Battement du métronome à " + currentBpm + " BPM");
-
+        // Jouer le son du métronome
         if (metronomeTickSound != null)
         {
             metronomeTickSound.Play();
         }
 
+        // Remettre la couleur de l'indicateur à neutre
         if (beatIndicator != null)
         {
             beatIndicator.color = neutralColor;
         }
 
+        // Mettre à jour l'affichage du BPM
         UpdateBpmText();
     }
 
-    /// <summary>
-    /// Appelé lorsque le joueur appuie sur la touche au bon moment.
-    /// Augmente le score et change la couleur de l'indicateur visuel.
-    /// </summary>
+    // Appelé lorsque le joueur appuie au bon moment
     void OnCorrectKeyPress()
     {
-        Debug.Log("Touche appuyée au bon moment !");
         score += 10;
         UpdateScoreText();
 
+        // Changer la couleur de l'indicateur pour un appui correct
         if (beatIndicator != null)
         {
             beatIndicator.color = correctColor;
@@ -188,34 +163,28 @@ public class PlayerMovement : MonoBehaviour
         canPressKey = false;
     }
 
-    /// <summary>
-    /// Appelé lorsque le joueur appuie sur la touche en dehors de la fenêtre de tolérance.
-    /// Réduit le score et change la couleur de l'indicateur visuel.
-    /// </summary>
+    // Appelé lorsque le joueur appuie au mauvais moment
     void OnIncorrectKeyPress()
     {
-        Debug.Log("Touche appuyée au mauvais moment !");
         score -= 2;
         UpdateScoreText();
 
+        // Changer la couleur de l'indicateur pour un appui incorrect
         if (beatIndicator != null)
         {
             beatIndicator.color = wrongColor;
         }
     }
 
-    /// <summary>
-    /// Vérifie si le joueur n'a pas appuyé sur la touche pendant la fenêtre de tolérance.
-    /// Si le joueur n'a pas appuyé, une pénalité est appliquée au score.
-    /// </summary>
+    // Vérifie si le joueur a manqué d'appuyer sur une touche
     void CheckMissedKeyPress()
     {
         if (!hasPressedKey)
         {
-            Debug.Log("Touche manquée !");
             score -= 5;
             UpdateScoreText();
 
+            // Changer la couleur de l'indicateur pour un appui manqué
             if (beatIndicator != null)
             {
                 beatIndicator.color = wrongColor;
@@ -225,9 +194,7 @@ public class PlayerMovement : MonoBehaviour
         canPressKey = false;
     }
 
-    /// <summary>
-    /// Met à jour l'affichage du BPM dans l'interface utilisateur.
-    /// </summary>
+    // Met à jour le texte du BPM dans l'UI
     void UpdateBpmText()
     {
         if (bpmText != null)
@@ -236,9 +203,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Met à jour l'affichage du score dans l'interface utilisateur.
-    /// </summary>
+    // Met à jour le texte du score dans l'UI
     void UpdateScoreText()
     {
         if (scoreText != null)
@@ -247,7 +212,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Gameover(){
+    // Réinitialise le jeu en cas de game over
+    void Gameover()
+    {
         score = 50;
         currentBpm = startBpm;
         interval = 60f / currentBpm;
@@ -262,10 +229,52 @@ public class PlayerMovement : MonoBehaviour
 
         UpdateBpmText();
         UpdateScoreText();
-    } 
-
-    void RestartGame(){
-        
+    }
+    
+    // Fonction pour redémarrer le jeu
+    void RestartGame()
+    {
+        SceneManager.LoadScene("Game");
     }
 
+    // Coroutine pour vérifier les chances de déclencher un flash
+    IEnumerator CheckFlashChance()
+    {
+        while (true)
+        {
+            // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %
+            if (score < redIntervale)
+            {
+                yield return new WaitForSeconds(3f);
+                if (Random.value < 0.5f && !isFlashing)
+                {
+                    StartCoroutine(Flash());
+                }
+            }
+            // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %
+            else if (score < yellowIntervale)
+            {
+                yield return new WaitForSeconds(10f);
+                if (Random.value < 0.25f && !isFlashing)
+                {
+                    StartCoroutine(Flash());
+                }
+            }
+            // Zone verte : aucun flash
+            else
+            {
+                yield return null;
+            }
+        }
+    }
+
+    // Coroutine pour afficher le flash
+    IEnumerator Flash()
+    {
+        isFlashing = true;
+        flashImage.gameObject.SetActive(true); // Afficher l'image de flash
+        yield return new WaitForSeconds(flashDuration);
+        flashImage.gameObject.SetActive(false);// Cacher l'image de flash
+        isFlashing = false;
+    }
 }
