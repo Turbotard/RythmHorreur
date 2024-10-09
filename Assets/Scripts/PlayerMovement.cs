@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -73,7 +74,13 @@ public class PlayerMovement : MonoBehaviour
     private int score = 50;     // Score actuel du joueur.
     private int minScore = 0;
     private int maxScore = 100;
-    
+    public static bool isGameOver;
+
+    private void Awake()
+    {
+        isGameOver = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,23 +127,23 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.A) && lastKey == "d" || Input.GetKeyDown(KeyCode.A) && lastKey == ""){
             lastKey = "q";
             StepForward();
-            Debug.Log("HellYes !");
+            Debug.Log(currentBpm);
             OnCorrectKeyPress();
         }
         else if (Input.GetKeyDown(KeyCode.D) && lastKey == "q"){
             lastKey = "d";
             StepForward();
-            Debug.Log("Yes !");
+            Debug.Log(currentBpm);
             OnCorrectKeyPress();
         }
         else if (!canPressKey && Input.GetKeyDown(KeyCode.Space))
         {
             OnIncorrectKeyPress();
         }
-        if (score <= minScore){
+        if (isGameOver){
             Gameover();
         }    
-        else if(score >= minScore)
+        else if(!isGameOver)
         {
             Debug.Log(score);
         }    
@@ -265,7 +272,7 @@ public class PlayerMovement : MonoBehaviour
     } 
 
     void RestartGame(){
-        
+
     }
 
 }
