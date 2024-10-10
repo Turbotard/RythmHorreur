@@ -112,6 +112,7 @@ public class UserExperienceMetronome : MonoBehaviour
 
     public bool isOnTime()
     {
+        Debug.Log("sur le temps");
         return timer < toleranceWindow || interval - timer < toleranceWindow;
     }
     

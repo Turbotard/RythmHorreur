@@ -563,7 +563,7 @@ MonoBehaviour:
   startBpm: 90
   bpmIncreaseRate: 0.5
   maxBpm: 180
-  toleranceWindow: 0
+  toleranceWindow: 0.2
   metronomeTickSound: {fileID: 1125800955}
   bpmText: {fileID: 0}
   beatIndicator: {fileID: 1648044924}
@@ -730,7 +730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRb: {fileID: 1394501087}
   input: 0
-  stepDistance: 1
+  stepDistance: 2
   screamer: {fileID: 1070176397}
   metronome: {fileID: 1125800954}
   scoreText: {fileID: 0}
@@ -1229,7 +1229,7 @@ Transform:
   m_GameObject: {fileID: 1785574607}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.85, y: -0.1, z: -0.08544247}
+  m_LocalPosition: {x: 9.61, y: -0.1, z: -0.08544247}
   m_LocalScale: {x: 4.1119304, y: 1.1851233, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
