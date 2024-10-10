@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class ParallaxController : MonoBehaviour
@@ -6,29 +5,29 @@ public class ParallaxController : MonoBehaviour
     Transform cam; //Main Camera
     Vector3 camStartPos; //Camera's starting position
     float distance; //Distance between camera and object
-    GameObject[] background;
-    Material[] amt;
+    GameObject[] backgrounds;
+    Material[] mat;
     float[] backSpeed;
 
-    float fathestBack;
+    float farthestBack;
 
     [Range(0.01f, 0.05f)]
     public float parallaxSpeed;
 
     void Start()
     {
-        cam=GetComponent<Camera>().main.transform;
-        camStartPose=cam.position;
+        cam = Camera.main.transform;
+        camStartPos = cam.position;
 
         int backCount = transform.childCount;
-        mat= new Material[backCount];
-        backSpeed = new float [backCount];
-        background = new GameObject[backCount];
+        mat = new Material[backCount];
+        backSpeed = new float[backCount];
+        backgrounds = new GameObject[backCount];
 
         for (int i = 0; i < backCount; i++)
         {
-            background[i] = transform.GetChild(i).gameObject;
-            mat[i] = backgroundsp[i].GetComponent<Renderer>().material;
+            backgrounds[i] = transform.GetChild(i).gameObject;
+            mat[i] = backgrounds[i].GetComponent<Renderer>().material;
         }
         BackSpeedCalculate(backCount);
     }
