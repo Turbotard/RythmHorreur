@@ -878,6 +878,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1388201867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1388201869}
+  - component: {fileID: 1388201868}
+  m_Layer: 0
+  m_Name: gameover
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1388201868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388201867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 082dece51d1b8574fa99530bd42a241c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1388201869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388201867}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.0116973, y: 0.39263725, z: -0.08544159}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1394501084
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,7 +960,8 @@ MonoBehaviour:
   stepDistance: 2
   screamer: {fileID: 1070176397}
   metronome: {fileID: 1125800954}
-  gameover: {fileID: 0}
+  gameover: {fileID: 1388201868}
+
   scoreText: {fileID: 0}
 --- !u!70 &1394501086
 CapsuleCollider2D:
@@ -1623,5 +1668,5 @@ SceneRoots:
   - {fileID: 1070176399}
   - {fileID: 1101560415}
   - {fileID: 1740467547}
-  - {fileID: 146672472}
-  - {fileID: 1008587415}
+  - {fileID: 1388201869}
+

@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
     private int score = 50;
     public GameOver gameover;
-    
+    private int maxScore = 100;
     /// <summary>
     /// Texte UI affichant le score du joueur.
     /// </summary>
@@ -76,6 +76,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (score > maxScore)
+        {
+            score = maxScore;
+        }
         if (score <= 0)
         {
             isGameOver = true;
