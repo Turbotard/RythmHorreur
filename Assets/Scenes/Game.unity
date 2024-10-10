@@ -290,9 +290,10 @@ GameObject:
   - component: {fileID: 146672472}
   - component: {fileID: 146672471}
   - component: {fileID: 146672470}
+  - component: {fileID: 146672473}
   m_Layer: 3
   m_Name: Obstacle
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -409,6 +410,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &146672473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146672469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b1638d5c3beea14ea9a3eda73108a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1394501085}
 --- !u!1 &321260092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,6 +1261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10a677adb234131a46b80ae56490ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerScore: 0
   redIntervale: 20
   yellowIntervale: 50
   flashImage: {fileID: 1101560414}
@@ -1691,9 +1706,10 @@ GameObject:
   - component: {fileID: 1394501086}
   - component: {fileID: 1394501085}
   - component: {fileID: 1394501090}
+  - component: {fileID: 1394501091}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1711,6 +1727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 1394501087}
+  speedController: {fileID: 1394501091}
   input: 0
   stepDistance: 2
   screamer: {fileID: 1070176397}
@@ -1864,6 +1881,20 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &1394501091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394501084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642e6c399b534499796e5bad213125cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpeed: 3
+  scoreMultiplier: 1.1
 --- !u!1 &1536920754
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,7 +2120,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2e9501d852ee63043bc2449a19272c99, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2558,6 +2589,8 @@ GameObject:
   - component: {fileID: 2000042854}
   - component: {fileID: 2000042853}
   - component: {fileID: 2000042852}
+  - component: {fileID: 2000042857}
+  - component: {fileID: 2000042858}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2578,7 +2611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyRb: {fileID: 2000042854}
-  speed: 1
+  speed: 4
 --- !u!61 &2000042853
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2718,6 +2751,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2000042857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000042851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603993eabd1f5a248854931fa4030713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRb: {fileID: 0}
+  speedController: {fileID: 1394501091}
+  input: 0
+  stepDistance: 0
+  screamer: {fileID: 0}
+  metronome: {fileID: 0}
+  gameover: {fileID: 0}
+  scoreText: {fileID: 0}
+--- !u!114 &2000042858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000042851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d4f288c890e27b45bbd120fac0df0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRb: {fileID: 1394501087}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

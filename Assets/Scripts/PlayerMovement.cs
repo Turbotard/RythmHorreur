@@ -90,13 +90,17 @@ public class PlayerMovement : MonoBehaviour
             isGameOver = true;
         }
         
-        if (isGameOver)
-        {
-           gameover.Gameover();
-        }
         
         UpdateScoreText();
 
+    }
+
+    private void FixedUpdate()
+    {
+        if (isGameOver)
+        {
+            gameover.Gameover();
+        }
     }
 
     // Déplace le joueur vers l'avant d'une certaine distance
