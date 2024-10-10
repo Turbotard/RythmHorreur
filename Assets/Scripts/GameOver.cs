@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
@@ -17,24 +18,10 @@ public class GameOver : MonoBehaviour
         
     }
     
-    // Réinitialise le jeu en cas de game over
-    /*
-    public void GameOver()
+   
+    public void Gameover()
     {
-        score = 50;
-        currentBpm = startBpm;
-        interval = 60f / currentBpm;
-        timer = 0f;
-        canPressKey = false;
-        hasPressedKey = false;
-
-        if (beatIndicator != null)
-        {
-            beatIndicator.color = neutralColor;
-        }
-
-        UpdateBpmText();
-        UpdateScoreText();
+        SceneManager.LoadScene("Home");
     }
     
 
@@ -43,5 +30,5 @@ public class GameOver : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
-    */
+    
 }

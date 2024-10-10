@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public UserExperienceMetronome metronome;
     private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
     private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
-    private int score = 50; 
+    private int score = 50;
+    public GameOver gameover;
     
     /// <summary>
     /// Texte UI affichant le score du joueur.
@@ -74,9 +75,15 @@ public class PlayerMovement : MonoBehaviour
                 OnIncorrectKeyPress();
             }
         }
+
+        if (score <= 0)
+        {
+            isGameOver = true;
+        }
+        
         if (isGameOver)
         {
-           // gameover.GameOver();
+           gameover.Gameover();
         }
         
         UpdateScoreText();
