@@ -34,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // Le joueur avance tout seul avec une vitesse ajustée selon son score
-        StepForwardConstantly();
 
         // Gestion des touches A et D pour avancer en rythme
         if (Input.GetKeyDown(KeyCode.A))
@@ -75,6 +74,8 @@ public class PlayerMovement : MonoBehaviour
                 OnIncorrectKeyPress();
             }
         }
+        
+        StepForwardConstantly();
 
         if (score <= 0f)
         {
@@ -105,10 +106,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Touche appuyée au bon moment !");
         score += 10f;
         UpdateScoreText();
-        if (speedController != null)
-        {
-            speedController.UpdateScore(score);
-        }
+
         if (metronome.beatIndicator != null)
         {
             metronome.beatIndicator.color = metronome.correctColor;
@@ -122,10 +120,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Touche appuyée au mauvais moment !");
         score -= 2f;
         UpdateScoreText();
-        if (speedController != null)
-        {
-            speedController.UpdateScore(score);
-        }
+
         if (metronome.beatIndicator != null)
         {
             metronome.beatIndicator.color = metronome.wrongColor;
