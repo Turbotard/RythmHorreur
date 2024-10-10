@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 249689268}
-  metronome: {fileID: 1816063086}
+  metronome: {fileID: 0}
   smoothSpeed: 0.125
   scoreTarget: 50
   maxOffset: 5
