@@ -5,8 +5,8 @@ using UnityEngine;
 public class ObstacleHandling : MonoBehaviour
 {
     public Rigidbody2D playerRb;
-    public float jumpForce = 10f;
     public float groundCheckDistance = 5.0f;
+    public float jumpForce = 10f; 
     public LayerMask groundLayer;
     private bool isGrounded;
     private Vector2 hitPoint;
@@ -31,9 +31,11 @@ public class ObstacleHandling : MonoBehaviour
 
         Debug.DrawRay(transform.position, Vector2.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
 
+        // Vérifie si le saut est activé seulement lorsque le joueur est au sol
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
+            Debug.Log("Saut avec touche Espace");  // Pour s'assurer que le saut de base fonctionne encore
         }
     }
 
