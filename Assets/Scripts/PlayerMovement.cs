@@ -18,8 +18,9 @@ public class PlayerMovement : MonoBehaviour
     private bool hasPressedKey; // Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
     private float score = 50f;
     public GameOver gameover;
+    private int maxScore = 100;
 
-    public TMP_Text scoreText; // Texte UI affichant le score
+    public TMP_Text scoreText;// Score actuel du joueur.
 
     private void Awake()
     {
@@ -77,7 +78,11 @@ public class PlayerMovement : MonoBehaviour
         
         StepForwardConstantly();
 
-        if (score <= 0f)
+        if (score > maxScore)
+        {
+            score = maxScore;
+        }
+        if (score <= 0)
         {
             isGameOver = true;
         }
