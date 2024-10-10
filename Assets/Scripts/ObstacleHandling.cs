@@ -45,4 +45,5 @@ public class ObstacleHandling : MonoBehaviour
             Gizmos.DrawSphere(hitPoint, 0.1f);
         }
     }
+    
 }

@@ -160,7 +160,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetScore(int numMod)
+    {
+        score += numMod;
+    }
+    
+
     public float GetScore()
+
     {
         return score;
     }

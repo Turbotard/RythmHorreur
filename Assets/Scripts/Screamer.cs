@@ -67,7 +67,6 @@ public class Screamer : MonoBehaviour
         if (metronome != null)
         {
             playerScore = PlayerMovement.GetScore();
-            Debug.Log("Player Score : " + playerScore);
         }
         else
         {
