@@ -311,12 +311,12 @@ MonoBehaviour:
   playerScore: 0
   redIntervale: 20
   yellowIntervale: 50
-  flashImage: {fileID: 0}
+  flashImage: {fileID: 1101560414}
   flashDuration: 0.5
   redZoneSounds: []
   yellowZoneSounds: []
-  metronome: {fileID: 0}
-  PlayerMovement: {fileID: 0}
+  metronome: {fileID: 1125800954}
+  PlayerMovement: {fileID: 1394501085}
 --- !u!82 &1070176398
 AudioSource:
   m_ObjectHideFlags: 0
@@ -563,7 +563,7 @@ MonoBehaviour:
   startBpm: 90
   bpmIncreaseRate: 0.5
   maxBpm: 180
-  toleranceWindow: 25
+  toleranceWindow: 0
   metronomeTickSound: {fileID: 1125800955}
   bpmText: {fileID: 0}
   beatIndicator: {fileID: 1648044924}
@@ -572,7 +572,19 @@ MonoBehaviour:
   neutralColor: {r: 1, g: 1, b: 1, a: 1}
   OnBeat:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1394501085}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: CheckMissedKeyPress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!82 &1125800955
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1106,7 +1118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1125800953}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1740467547
