@@ -13,7 +13,7 @@ public class CameraBehaviour : MonoBehaviour
     void Update()
     {
         // Récupérer le score actuel du joueur depuis UserExperienceMetronome
-        int playerScore = movement.GetScore();
+        float playerScore = movement.GetScore();
 
         // Calculer le décalage en fonction de la différence entre le score du joueur et le score cible
         float scoreDifference = playerScore - scoreTarget;
