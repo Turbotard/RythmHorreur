@@ -10,7 +10,8 @@ public class ObstacleHandling : MonoBehaviour
     public LayerMask groundLayer;
     private bool isGrounded;
     private Vector2 hitPoint;
-
+    private Animator anim;
+    
     void Start()
     {
         if (playerRb == null)
@@ -23,7 +24,6 @@ public class ObstacleHandling : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
         isGrounded = hit.collider != null;
-
         if (isGrounded)
         {
             hitPoint = hit.point;
@@ -35,6 +35,12 @@ public class ObstacleHandling : MonoBehaviour
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
         }
+         if (anim != null)
+        {
+        Debug.Log("Grounded: " + isGrounded);
+        anim.SetBool("Grounded", isGrounded);
+        }
+
     }
 
     void OnDrawGizmos()
