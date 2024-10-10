@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Screamer : MonoBehaviour
 {
     /// <summary>
-    /// Le score actuel du joueur, mis à jour depuis Metronome.
+    /// Le score actuel du joueur, mis à jour depuis PlayerMovement.
     /// </summary>
     public float playerScore;
 
@@ -42,11 +42,8 @@ public class Screamer : MonoBehaviour
     private AudioSource audioSource;
 
     private bool isFlashing = false;
-    
-    [SerializeField] private UserExperienceMetronome metronome;
-    public PlayerMovement PlayerMovement;
-    
-    
+
+    public PlayerMovement playerMovement;
 
     private void Start()
     {
@@ -60,18 +57,18 @@ public class Screamer : MonoBehaviour
             Debug.LogError("Aucun AudioSource trouvé sur le GameObject. Veuillez en ajouter un.");
         }
     }
-    // Update is called once per frame 
+
     private void Update()
     {
-        // Mettre à jour le score depuis le script Metronome.
-        if (metronome != null)
+        // Mettre à jour le score depuis le script PlayerMovement.
+        if (playerMovement != null)
         {
-            playerScore = PlayerMovement.GetScore();
+            playerScore = playerMovement.GetScore();
             Debug.Log("Player Score : " + playerScore);
         }
         else
         {
-            Debug.LogError("Aucun script Metronome trouvé. Veuillez ajouter un script Metronome au GameObject.");
+            Debug.LogError("Aucun script PlayerMovement trouvé. Veuillez ajouter un script PlayerMovement au GameObject.");
         }
     }
 

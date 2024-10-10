@@ -1247,15 +1247,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10a677adb234131a46b80ae56490ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScore: 0
   redIntervale: 20
   yellowIntervale: 50
   flashImage: {fileID: 1101560414}
   flashDuration: 0.5
   redZoneSounds: []
   yellowZoneSounds: []
-  metronome: {fileID: 1125800954}
-  PlayerMovement: {fileID: 1394501085}
+  playerMovement: {fileID: 1394501085}
 --- !u!82 &1070176398
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2091,7 +2089,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2e9501d852ee63043bc2449a19272c99, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
