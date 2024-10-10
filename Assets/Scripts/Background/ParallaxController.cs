@@ -17,7 +17,7 @@ public class ParallaxController : MonoBehaviour
 
     void Start()
     {
-        cam=camera.main.transform;
+        cam=GetComponent<Camera>().main.transform;
         camStartPose=cam.position;
 
         int backCount = transform.childCount;
