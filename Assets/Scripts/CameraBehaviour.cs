@@ -9,14 +9,22 @@ public class CameraBehaviour : MonoBehaviour
     public float maxOffset = 5f;                  // Décalage maximal de la caméra
     private Vector3 offset = new Vector3(0, 0, -10); // Position initiale de la caméra par rapport au joueur
     public PlayerMovement movement;
-
+    private float scoreDifference;
     void Update()
     {
         // Récupérer le score actuel du joueur depuis UserExperienceMetronome
         int playerScore = movement.GetScore();
 
         // Calculer le décalage en fonction de la différence entre le score du joueur et le score cible
-        float scoreDifference = playerScore - scoreTarget;
+        if (playerScore <= 50)
+        {
+            int minCameraPos = 50;
+            scoreDifference = minCameraPos - scoreTarget;
+        }
+        else
+        {
+            scoreDifference = playerScore - scoreTarget;
+        }
 
         // Calculer l'offset sur l'axe X, en fonction de la différence de score
         float xOffset = Mathf.Clamp(scoreDifference * 0.2f, -maxOffset, maxOffset);
