@@ -168,6 +168,11 @@ public class PlayerMovement : MonoBehaviour
             scoreText.text = "Score: " + score.ToString();
         }
     }
+
+    public void SetScore(int numMod)
+    {
+        score += numMod;
+    }
     
     public int GetScore()
     {

@@ -122,7 +122,6 @@ public class UserExperienceMetronome : MonoBehaviour
     /// </summary>
     void OnMetronomeBeat()
     {
-        Debug.Log("Battement du métronome à " + currentBpm + " BPM");
 
         if (metronomeTickSound != null)
         {
