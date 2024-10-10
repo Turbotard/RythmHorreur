@@ -46,15 +46,27 @@ public class ParallaxController : MonoBehaviour
             backSpeed[i] = 1 - (backgrounds[i].transform.position.z - cam.position.z) / farthestBack;
         }
     }
+
     private void LateUpdate()
     {
         distance = cam.position.x - camStartPos.x;
+        Debug.Log("Camera Position: " + cam.position);
+        Debug.Log("Distance: " + distance);
+
+        transform.position = new Vector3(cam.position.x, transform.position.y, 0);
 
         for (int i = 0; i < backgrounds.Length; i++)
         {
             float speed = backSpeed[i] * parallaxSpeed;
-            mat[i].SetTextureOffset("_Maintex", new Vector2(distance, 0) * speed);
+            Vector2 offset = new Vector2(distance, 0) * speed;
+            mat[i].SetTextureOffset("_MainTex", offset);
+            Debug.Log("Background " + i + " Offset: " + offset);
+
+            // Check if the material has the _MainTex property
+            if (!mat[i].HasProperty("_MainTex"))
+            {
+                Debug.LogWarning("Material on background " + i + " does not have a _MainTex property.");
+            }
         }
     }
-
 }
