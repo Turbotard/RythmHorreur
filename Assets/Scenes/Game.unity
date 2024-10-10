@@ -273,10 +273,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1394501089}
-  metronome: {fileID: 1125800954}
   smoothSpeed: 0.125
-  scoreTarget: 50
-  maxOffset: 5
+  maxScore: 100
+  minScore: 0
+  maxRightOffset: 5
+  maxLeftOffset: 5
   movement: {fileID: 1394501085}
 --- !u!1 &146672469
 GameObject:
@@ -961,7 +962,6 @@ MonoBehaviour:
   screamer: {fileID: 1070176397}
   metronome: {fileID: 1125800954}
   gameover: {fileID: 1388201868}
-
   scoreText: {fileID: 0}
 --- !u!70 &1394501086
 CapsuleCollider2D:
@@ -1413,7 +1413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ebe7116442f4a8bbe4b0bd15e2a693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1394501089}
+  player: {fileID: 64676672}
   offset: {x: 10, y: 0, z: 9}
 --- !u!212 &1785574609
 SpriteRenderer:
@@ -1669,4 +1669,5 @@ SceneRoots:
   - {fileID: 1101560415}
   - {fileID: 1740467547}
   - {fileID: 1388201869}
-
+  - {fileID: 146672472}
+  - {fileID: 1008587415}
