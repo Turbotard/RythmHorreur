@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        StepForwardConstantly();
+
 
         if (score > maxScore)
         {
@@ -93,6 +93,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdateScoreText();
+    }
+    
+    void FixedUpdate()
+    {
+        if (!isGameOver)
+        {
+            StepForwardConstantly();
+        }
     }
 
     // Déplace le joueur constamment à une vitesse ajustée selon son score
