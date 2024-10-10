@@ -8,7 +8,7 @@ public class Screamer : MonoBehaviour
     /// <summary>
     /// Le score actuel du joueur, mis à jour depuis Metronome.
     /// </summary>
-    public int playerScore;
+    public float playerScore;
 
     /// <summary>
     /// Seuils pour déclencher les événements de screamer.
