@@ -14,7 +14,7 @@ public class CameraBehaviour : MonoBehaviour
     void LateUpdate()
     {
         // Récupérer le score actuel du joueur
-        int playerScore = movement.GetScore();
+        float playerScore = movement.GetScore();
 
         // Mapper le score du joueur à une position horizontale inversée
         // Si le score est minimum, l'offset est maxRightOffset (la caméra est à droite)

@@ -8,7 +8,8 @@ public class Screamer : MonoBehaviour
     /// <summary>
     /// Le score actuel du joueur, mis à jour depuis PlayerMovement.
     /// </summary>
-    private int playerScore;
+
+    public float playerScore;
 
     /// <summary>
     /// Seuils pour déclencher les événements de screamer.
@@ -79,7 +80,7 @@ public class Screamer : MonoBehaviour
         {
             Debug.Log(playerScore);
             // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
-            if (playerScore >= 0 && playerScore < redIntervale)
+            if (playerScore >= 0f && playerScore < redIntervale)
             {
                 yield return new WaitForSeconds(10f);
                 if (UnityEngine.Random.value < 0.5f && !isFlashing)

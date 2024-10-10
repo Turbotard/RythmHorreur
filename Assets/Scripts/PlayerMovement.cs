@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 {
     // Composant Rigidbody2D pour déplacer le joueur
     public Rigidbody2D playerRb;
+    public PlayerSpeedController speedController;
+
     public float input;
     public float stepDistance; // Distance parcourue à chaque "pas"
     private string lastKey = ""; // Stocke la dernière touche appuyée
@@ -17,9 +19,10 @@ public class PlayerMovement : MonoBehaviour
     public UserExperienceMetronome metronome;
     private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
     private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
-    private int score = 50;
+    private float score = 50f;
+    private float minScore = 0f;
     public GameOver gameover;
-    private int maxScore = 100;
+    private float maxScore = 100f;
     /// <summary>
     /// Texte UI affichant le score du joueur.
     /// </summary>
@@ -75,12 +78,14 @@ public class PlayerMovement : MonoBehaviour
                 OnIncorrectKeyPress();
             }
         }
-
+        
+        StepForwardConstantly();
+        
         if (score > maxScore)
         {
             score = maxScore;
         }
-        if (score <= 0)
+        if (score <= minScore)
         {
             isGameOver = true;
         }
@@ -95,9 +100,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Déplace le joueur vers l'avant d'une certaine distance
-    void StepForward()
+    void StepForwardConstantly()
     {
-        playerRb.MovePosition(playerRb.position + new Vector2(stepDistance, 0));
+        if (playerRb != null && speedController != null)
+        {
+            float adjustedSpeed = speedController.GetAdjustedSpeed();
+            playerRb.velocity = new Vector2(adjustedSpeed, playerRb.velocity.y);
+        }
     }
 
     /// <summary>
@@ -107,9 +116,8 @@ public class PlayerMovement : MonoBehaviour
     public void OnCorrectKeyPress()
     {
         Debug.Log("Touche appuyée au bon moment !");
-        score += 10;
+        score += 7f;
         UpdateScoreText();
-        StepForward();
 
         if (metronome.beatIndicator != null)
         {
@@ -126,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
     void OnIncorrectKeyPress()
     {
         Debug.Log("Touche appuyée au mauvais moment !");
-        score -= 2;
+        score -= 2f;
         UpdateScoreText();
 
         if (metronome.beatIndicator != null)
@@ -146,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
         if (!hasPressedKey)
         {
             Debug.Log("Touche manquée !");
-            score -= 5;
+            score -= 5f;
             UpdateScoreText();
 
             if (metronome.beatIndicator != null)
@@ -168,8 +176,13 @@ public class PlayerMovement : MonoBehaviour
             scoreText.text = "Score: " + score.ToString();
         }
     }
-    
-    public int GetScore()
+
+    public void SetScore(float numMod)
+    {
+        score += numMod;
+    }
+
+    public float GetScore()
     {
         return score;
     }
