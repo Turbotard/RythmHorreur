@@ -62,7 +62,7 @@ public class CombinationJump : MonoBehaviour
     // Affiche la combinaison à l'écran
     void DisplayCombination()
     {
-        combinationText.text = "Combinaison : ";
+        combinationText.text = "";
         foreach (string key in currentCombination)
         {
             combinationText.text += keyboardManager.GetDisplayKey(key) + " ";  // Utilise la méthode GetDisplayKey pour afficher la bonne touche selon la disposition
