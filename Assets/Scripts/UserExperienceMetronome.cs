@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 /// <summary>
 /// Gère le métronome et l'expérience utilisateur autour du rythme.
@@ -40,11 +41,6 @@ public class UserExperienceMetronome : MonoBehaviour
     public TMP_Text bpmText;
 
     /// <summary>
-    /// Texte UI affichant le score du joueur.
-    /// </summary>
-    public TMP_Text scoreText;
-
-    /// <summary>
     /// Indicateur visuel du battement, utilisé pour signaler au joueur l'état du métronome.
     /// </summary>
     public Image beatIndicator;
@@ -67,9 +63,9 @@ public class UserExperienceMetronome : MonoBehaviour
     private float currentBpm;  // BPM actuel du métronome.
     private float interval;    // Intervalle en secondes entre chaque battement du métronome.
     private float timer;       // Timer pour suivre le temps écoulé entre les battements.
-    private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
-    private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
-    private int score = 50;     // Score actuel du joueur.
+
+    [SerializeField]
+    private UnityEvent OnBeat;
     
     /// <summary>
     /// Initialise les variables et configure l'interface utilisateur au démarrage du script.
@@ -79,8 +75,7 @@ public class UserExperienceMetronome : MonoBehaviour
         currentBpm = startBpm;
         interval = 60f / currentBpm;
         timer = 0f;
-        canPressKey = false;
-        hasPressedKey = false;
+        
 
         if (beatIndicator != null)
         {
@@ -88,7 +83,6 @@ public class UserExperienceMetronome : MonoBehaviour
         }
 
         UpdateBpmText();
-        UpdateScoreText();
     }
 
     /// <summary>
@@ -111,21 +105,16 @@ public class UserExperienceMetronome : MonoBehaviour
                 interval = 60f / currentBpm;
             }
 
-            canPressKey = true;
-            hasPressedKey = false;
-            Invoke("CheckMissedKeyPress", toleranceWindow);
+            
         }
-
-        if (canPressKey && Input.GetKeyDown(KeyCode.Space))
-        {
-            OnCorrectKeyPress();
-        }
-        else if (!canPressKey && Input.GetKeyDown(KeyCode.Space))
-        {
-            OnIncorrectKeyPress();
-        }
+        
     }
 
+    public bool isOnTime()
+    {
+        return timer < toleranceWindow || interval - timer < toleranceWindow;
+    }
+    
     /// <summary>
     /// Appelé à chaque battement du métronome.
     /// Joue le son du battement, met à jour l'indicateur visuel et le texte du BPM.
@@ -145,63 +134,11 @@ public class UserExperienceMetronome : MonoBehaviour
         }
 
         UpdateBpmText();
+        
+        OnBeat.Invoke();
     }
 
-    /// <summary>
-    /// Appelé lorsque le joueur appuie sur la touche au bon moment.
-    /// Augmente le score et change la couleur de l'indicateur visuel.
-    /// </summary>
-    public void OnCorrectKeyPress()
-    {
-        Debug.Log("Touche appuyée au bon moment !");
-        score += 10;
-        UpdateScoreText();
 
-        if (beatIndicator != null)
-        {
-            beatIndicator.color = correctColor;
-        }
-
-        hasPressedKey = true;
-        canPressKey = false;
-    }
-
-    /// <summary>
-    /// Appelé lorsque le joueur appuie sur la touche en dehors de la fenêtre de tolérance.
-    /// Réduit le score et change la couleur de l'indicateur visuel.
-    /// </summary>
-    void OnIncorrectKeyPress()
-    {
-        Debug.Log("Touche appuyée au mauvais moment !");
-        score -= 2;
-        UpdateScoreText();
-
-        if (beatIndicator != null)
-        {
-            beatIndicator.color = wrongColor;
-        }
-    }
-
-    /// <summary>
-    /// Vérifie si le joueur n'a pas appuyé sur la touche pendant la fenêtre de tolérance.
-    /// Si le joueur n'a pas appuyé, une pénalité est appliquée au score.
-    /// </summary>
-    void CheckMissedKeyPress()
-    {
-        if (!hasPressedKey)
-        {
-            Debug.Log("Touche manquée !");
-            score -= 5;
-            UpdateScoreText();
-
-            if (beatIndicator != null)
-            {
-                beatIndicator.color = wrongColor;
-            }
-        }
-
-        canPressKey = false;
-    }
 
     /// <summary>
     /// Met à jour l'affichage du BPM dans l'interface utilisateur.
@@ -214,19 +151,5 @@ public class UserExperienceMetronome : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Met à jour l'affichage du score dans l'interface utilisateur.
-    /// </summary>
-    void UpdateScoreText()
-    {
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + score.ToString();
-        }
-    }
-    
-    public int GetScore()
-    {
-        return score;
-    }
+
 }

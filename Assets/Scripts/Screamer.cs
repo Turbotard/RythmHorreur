@@ -44,6 +44,7 @@ public class Screamer : MonoBehaviour
     private bool isFlashing = false;
     
     [SerializeField] private UserExperienceMetronome metronome;
+    public PlayerMovement PlayerMovement;
     
     
 
@@ -65,7 +66,7 @@ public class Screamer : MonoBehaviour
         // Mettre à jour le score depuis le script Metronome.
         if (metronome != null)
         {
-            playerScore = metronome.GetScore();
+            playerScore = PlayerMovement.GetScore();
             Debug.Log("Player Score : " + playerScore);
         }
         else
