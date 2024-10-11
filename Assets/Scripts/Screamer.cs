@@ -83,8 +83,8 @@ public class Screamer : MonoBehaviour
             // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %.
             if (playerScore > redIntervale && playerScore <= yellowIntervale)
             {
-                yield return new WaitForSeconds(5f);
-                if (UnityEngine.Random.value < 0.25f && !isFlashing)
+                yield return new WaitForSeconds(3f);
+                if (UnityEngine.Random.value < 0.33f && !isFlashing)
                 {
                     StartCoroutine(Flash(yellowZoneSounds));
                 }
@@ -92,7 +92,7 @@ public class Screamer : MonoBehaviour
             // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
             else if (playerScore >= 0f && playerScore < redIntervale)
             {
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(2f);
                 if (UnityEngine.Random.value < 0.5f && !isFlashing)
                 {
                     StartCoroutine(Flash(redZoneSounds));
