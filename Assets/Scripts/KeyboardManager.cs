@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 public enum KeyboardLayout
 {
@@ -9,6 +12,7 @@ public enum KeyboardLayout
 public class KeyboardManager : MonoBehaviour
 {
     public KeyboardLayout playerKeyboardLayout = KeyboardLayout.QWERTY;  // Par défaut, on considère que c'est QWERTY
+    public TMP_Text layoutText; // Référence au texte UI
 
     // Cette méthode prend une touche et renvoie la touche correcte selon la disposition du clavier
     public KeyCode GetKeyForLayout(KeyCode key)
@@ -51,15 +55,38 @@ public class KeyboardManager : MonoBehaviour
         }
         return key;  // Si QWERTY, pas de changement
     }
+
     public void SetKeyboardAZERTY()
     {
         Debug.Log("AZERTY");
         playerKeyboardLayout = KeyboardLayout.AZERTY;
+        UpdateLayoutText();
     }
-    
+
     public void SetKeyboardQWERTY()
     {
         Debug.Log("QWERTY");
         playerKeyboardLayout = KeyboardLayout.QWERTY;
+        UpdateLayoutText();
+    }
+
+    public string GetKeyboardLayout()
+    {
+        return playerKeyboardLayout.ToString();
+    }
+
+    // Méthode pour mettre à jour le texte affiché
+    private void UpdateLayoutText()
+    {
+        if (layoutText != null)
+        {
+            layoutText.text = $"Clavier : {GetKeyboardLayout()}";
+        }
+    }
+
+    // Initialisation
+    private void Start()
+    {
+        UpdateLayoutText();
     }
 }
