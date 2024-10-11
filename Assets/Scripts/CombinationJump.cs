@@ -9,14 +9,13 @@ public class CombinationJump : MonoBehaviour
     public Rigidbody2D playerRb;               // Le Rigidbody du joueur pour le saut
     public ObstacleHandling obstacleHandler;   // Référence au script ObstacleHandling
     public TMP_Text combinationText;           // Texte UI affichant la combinaison à l'écran
-    public int combinationLength = 3;          // Longueur de la combinaison de touches
+    public int combinationLength = 1;          // Longueur de la combinaison de touches
     public float inputWindowTime = 2f;         // Temps autorisé pour entrer la combinaison
     public KeyboardManager keyboardManager;    // Référence au gestionnaire de clavier
 
     private string[] possibleKeys = { "R", "T", "F", "C", "V" };  // Les touches possibles pour la combinaison
     private List<string> currentCombination;                 // La combinaison actuelle
     private int currentIndex = 0;                            // Indice pour savoir où on est dans la combinaison
-    private bool isGrounded = true;                          // Indique si le joueur est au sol
 
     void Start()
     {
@@ -32,7 +31,7 @@ public class CombinationJump : MonoBehaviour
     void Update()
     {
         // Vérifie si le joueur est au sol
-        if (isGrounded)
+        if (obstacleHandler.isGroundedMethod())
         {
             // Vérifie l'entrée du joueur
             CheckPlayerInput();
@@ -89,7 +88,7 @@ public class CombinationJump : MonoBehaviour
     // Fait sauter le joueur si la combinaison est correcte
     void Jump()
     {
-        if (playerRb != null)
+        if (playerRb != null && obstacleHandler.isGroundedMethod() != null)
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, obstacleHandler.jumpForce);
             Debug.Log("Saut réussi !"); 

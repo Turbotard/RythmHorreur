@@ -1838,7 +1838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 3
-  scoreMultiplier: 1.1
+  scoreMultiplier: 10
 --- !u!114 &1394501092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1854,7 +1854,7 @@ MonoBehaviour:
   playerRb: {fileID: 1394501087}
   obstacleHandler: {fileID: 1394501090}
   combinationText: {fileID: 1417091284}
-  combinationLength: 2
+  combinationLength: 1
   inputWindowTime: 2
   keyboardManager: {fileID: 997869522}
 --- !u!1 &1417091282
