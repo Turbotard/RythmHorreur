@@ -1671,11 +1671,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 1394501087}
-  speedController: {fileID: 1394501091}
   input: 0
   stepDistance: 2
   screamer: {fileID: 1070176397}
   metronome: {fileID: 1125800954}
+  baseSpeed: 4
+  scoreMultiplier: 0.15
   gameover: {fileID: 1388201868}
   scoreText: {fileID: 0}
 --- !u!70 &1394501086
@@ -1839,6 +1840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSpeed: 3
   scoreMultiplier: 10
+  score: 50
 --- !u!114 &1394501092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2887,11 +2889,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 0}
-  speedController: {fileID: 1394501091}
   input: 0
   stepDistance: 0
   screamer: {fileID: 0}
   metronome: {fileID: 0}
+  baseSpeed: 1
+  scoreMultiplier: 0.15
   gameover: {fileID: 0}
   scoreText: {fileID: 0}
 --- !u!114 &2000042858
