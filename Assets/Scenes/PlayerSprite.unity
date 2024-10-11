@@ -810,7 +810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRb: {fileID: 606965302}
   jumpForce: 7
-  groundCheckDistance: 1.3
+  groundCheckDistance: 0.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

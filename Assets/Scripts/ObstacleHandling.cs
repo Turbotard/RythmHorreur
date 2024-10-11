@@ -18,6 +18,7 @@ public class ObstacleHandling : MonoBehaviour
         {
             playerRb = GetComponent<Rigidbody2D>();
         }
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -34,12 +35,9 @@ public class ObstacleHandling : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
+            anim.SetTrigger("Jump");
         }
-         if (anim != null)
-        {
-        Debug.Log("Grounded: " + isGrounded);
         anim.SetBool("Grounded", isGrounded);
-        }
 
     }
 
