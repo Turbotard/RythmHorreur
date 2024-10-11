@@ -342,7 +342,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.65, y: 0.65}
   m_EdgeRadius: 0
 --- !u!212 &146672471
 SpriteRenderer:
@@ -386,7 +386,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 603245247, guid: ef5fcb4c14ecb6b409c73156dca912c8, type: 3}
-  m_Color: {r: 0.060698822, g: 0.00805267, b: 0.10943389, a: 1}
+  m_Color: {r: 0.16638301, g: 0.02710571, b: 0.3056603, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -405,8 +405,8 @@ Transform:
   m_GameObject: {fileID: 146672469}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38.62, y: -2.4764, z: -3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -38.62, y: -2.5, z: -3}
+  m_LocalScale: {x: 2.9, y: 2.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1459,6 +1459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerKeyboardLayout: 1
+  layoutText: {fileID: 0}
 --- !u!4 &997869523
 Transform:
   m_ObjectHideFlags: 0
