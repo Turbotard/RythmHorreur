@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObstacleCollision : MonoBehaviour
 {
     public PlayerMovement player;
-    private int malusHp = 30;
+    public int malusHp = 30;
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the object that collided with this is the player or enemy

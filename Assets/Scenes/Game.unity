@@ -1266,8 +1266,11 @@ MonoBehaviour:
   yellowIntervale: 50
   flashImage: {fileID: 1101560414}
   flashDuration: 0.5
-  redZoneSounds: []
-  yellowZoneSounds: []
+  redZoneSounds:
+  - {fileID: 8300000, guid: 92fafc719b0b37d45acd68d09874781e, type: 3}
+  - {fileID: 8300000, guid: dae55f48c1128194f8df04280c961a25, type: 3}
+  yellowZoneSounds:
+  - {fileID: 8300000, guid: 39d3dd9ce4e06a845b22d383c10ad6a0, type: 3}
   playerMovement: {fileID: 1394501085}
 --- !u!82 &1070176398
 AudioSource:
