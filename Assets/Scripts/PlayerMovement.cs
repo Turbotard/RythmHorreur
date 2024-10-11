@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public static bool isGameOver;
     public Screamer screamer; // Référence au script Screamer pour gérer le screamer indépendamment.
     public UserExperienceMetronome metronome;
+    private Animator anim;
     private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
     private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
     private float score = 50f;
@@ -38,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     {
         canPressKey = false;
         hasPressedKey = false;
+        anim = GetComponent<Animator>();
+
     }
 
     void Update()
@@ -60,7 +63,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 OnIncorrectKeyPress();
             }
-        } else if (Input.GetKeyDown(KeyCode.D))
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             if (lastKey == "q")
             {
@@ -79,9 +83,9 @@ public class PlayerMovement : MonoBehaviour
                 OnIncorrectKeyPress();
             }
         }
-        
+
         StepForwardConstantly();
-        
+
         if (score > maxScore)
         {
             score = maxScore;
@@ -90,8 +94,8 @@ public class PlayerMovement : MonoBehaviour
         {
             isGameOver = true;
         }
-        
-        
+
+
         UpdateScoreText();
 
     }
@@ -111,7 +115,16 @@ public class PlayerMovement : MonoBehaviour
         {
             float adjustedSpeed = GetAdjustedSpeed();
             playerRb.velocity = new Vector2(adjustedSpeed, playerRb.velocity.y);
+            if (adjustedSpeed > 0)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
         }
+
     }
 
     /// <summary>
@@ -170,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
         hasPressedKey = false;
     }
-    
+
     /// <summary>
     /// Met à jour l'affichage du score dans l'interface utilisateur.
     /// </summary>
