@@ -5,8 +5,8 @@ using UnityEngine;
 public class ObstacleHandling : MonoBehaviour
 {
     public Rigidbody2D playerRb;
-    public float jumpForce = 10f;
     public float groundCheckDistance = 5.0f;
+    public float jumpForce = 10f; 
     public LayerMask groundLayer;
     private bool isGrounded;
     private Vector2 hitPoint;
@@ -48,5 +48,11 @@ public class ObstacleHandling : MonoBehaviour
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(hitPoint, 0.1f);
         }
+    }
+
+    public bool isGroundedMethod()
+    {
+        Debug.Log("isGroundedMethod: " + isGrounded);
+        return isGrounded;
     }
 }

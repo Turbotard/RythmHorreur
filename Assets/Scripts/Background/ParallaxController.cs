@@ -61,7 +61,9 @@ public class ParallaxController : MonoBehaviour
 
             if (!mat[i].HasProperty("_MainTex"))
             {
+                /*
                 Debug.LogWarning("Material on background " + i + " does not have a _MainTex property.");
+            */
             }
         }
     }
