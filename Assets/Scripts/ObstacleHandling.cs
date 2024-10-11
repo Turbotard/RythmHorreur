@@ -52,7 +52,6 @@ public class ObstacleHandling : MonoBehaviour
 
     public bool isGroundedMethod()
     {
-        Debug.Log("isGroundedMethod: " + isGrounded);
         return isGrounded;
     }
 }

@@ -9,8 +9,6 @@ public class PlayerMovement : MonoBehaviour
 {
     // Composant Rigidbody2D pour déplacer le joueur
     public Rigidbody2D playerRb;
-    public PlayerSpeedController speedController;
-    public float stepDistance; // Distance parcourue à chaque "pas"
     private string lastKey = ""; // Stocke la dernière touche appuyée
     public static bool isGameOver;
     public Screamer screamer; // Référence au script Screamer pour gérer le screamer indépendamment.
@@ -201,7 +199,6 @@ public class PlayerMovement : MonoBehaviour
 
     public float GetAdjustedSpeed()
     {
-        Debug.Log("Vitesse ajustée appelée : " + (baseSpeed + (score - 50f) * scoreMultiplier));
         return baseSpeed + (score - 50f) * scoreMultiplier;
     }
 }

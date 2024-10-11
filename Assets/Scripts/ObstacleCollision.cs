@@ -13,6 +13,7 @@ public class ObstacleCollision : MonoBehaviour
         {
             Vector3 playerPosition = collision.transform.position;
             Vector3 obstaclePosition = transform.position;
+            Debug.Log("Collision detected");
             
             Debug.Log("Player X : " + playerPosition.x + "Player Y : "+ playerPosition.y + " Obstacle : " + obstaclePosition);
             // Vérifiez si le joueur touche l'obstacle à partir de la gauche
