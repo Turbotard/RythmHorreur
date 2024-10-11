@@ -518,8 +518,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 205695774}
-  speedController: {fileID: 0}
-  stepDistance: 2
   screamer: {fileID: 1070176397}
   metronome: {fileID: 1125800954}
   baseSpeed: 3
@@ -1911,7 +1909,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1125800953}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8749e0614efea1c46af55d0810624d8a, type: 3}
