@@ -32,7 +32,7 @@ public class ObstacleHandling : MonoBehaviour
 
         Debug.DrawRay(transform.position, Vector2.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded)
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
             anim.SetTrigger("Jump");
