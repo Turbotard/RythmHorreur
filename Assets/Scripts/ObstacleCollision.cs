@@ -16,13 +16,13 @@ public class ObstacleCollision : MonoBehaviour
             
             Debug.Log("Player X : " + playerPosition.x + "Player Y : "+ playerPosition.y + " Obstacle : " + obstaclePosition);
             // Vérifiez si le joueur touche l'obstacle à partir de la gauche
-            if (playerPosition.y > obstaclePosition.y + 0.25f) // Le joueur est à gauche de l'obstacle
+            if (playerPosition.y > obstaclePosition.y + 0.25f)// Le joueur est au-dessus de l'obstacle
             {
                 Debug.Log("haut");
                
             }
             // Vérifiez si le joueur touche l'obstacle par le haut
-            else if (playerPosition.x < obstaclePosition.x) // Le joueur est au-dessus de l'obstacle
+            else if (playerPosition.x < obstaclePosition.x) // Le joueur est à gauche de l'obstacle
             {
                 Debug.Log("gauche.");
                 Destroy(gameObject); // Détruire l'obstacle
