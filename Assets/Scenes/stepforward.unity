@@ -1313,9 +1313,11 @@ MonoBehaviour:
   flashImage: {fileID: 1858590771}
   flashDuration: 0.5
   redZoneSounds:
-  - {fileID: 8300000, guid: 92fafc719b0b37d45acd68d09874781e, type: 3}
+  - {fileID: 8300000, guid: 05178e75fd84e784bbbb0f9b0701fe81, type: 3}
+  - {fileID: 8300000, guid: 693fb1c3bb0b54f4c8d161ff172ad914, type: 3}
   yellowZoneSounds:
-  - {fileID: 8300000, guid: 39d3dd9ce4e06a845b22d383c10ad6a0, type: 3}
+  - {fileID: 8300000, guid: 973f841cc9a631f408c82a0a38911ae8, type: 3}
+  - {fileID: 8300000, guid: 693fb1c3bb0b54f4c8d161ff172ad914, type: 3}
   playerMovement: {fileID: 1394501085}
 --- !u!82 &1070176398
 AudioSource:

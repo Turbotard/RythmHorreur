@@ -9,12 +9,13 @@ public class PlayerMovement : MonoBehaviour
 {
     // Composant Rigidbody2D pour déplacer le joueur
     public Rigidbody2D playerRb;
-    public float input;
+    public PlayerSpeedController speedController;
     public float stepDistance; // Distance parcourue à chaque "pas"
     private string lastKey = ""; // Stocke la dernière touche appuyée
     public static bool isGameOver;
     public Screamer screamer; // Référence au script Screamer pour gérer le screamer indépendamment.
     public UserExperienceMetronome metronome;
+    private Animator anim;
     private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
     private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
     private float score = 50f;
@@ -28,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     /// Texte UI affichant le score du joueur.
     /// </summary>
     public TMP_Text scoreText;// Score actuel du joueur.
-    //public GameOver gameover;
+
     private void Awake()
     {
         isGameOver = false;
@@ -36,17 +37,21 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        canPressKey = false;
         hasPressedKey = false;
+        anim = GetComponent<Animator>();
+
     }
 
     void Update()
     {
+        // Le joueur avance tout seul avec une vitesse ajustée selon son score
+
+        // Gestion des touches A et D pour avancer en rythme
         if (Input.GetKeyDown(KeyCode.A))
         {
             if (lastKey == "d" || lastKey == "")
             {
-                if (metronome.isOnTime())
+                if (metronome != null && metronome.isOnTime())
                 {
                     OnCorrectKeyPress();
                     lastKey = "q";
@@ -60,11 +65,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 OnIncorrectKeyPress();
             }
-        } else if (Input.GetKeyDown(KeyCode.D))
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             if (lastKey == "q")
             {
-                if (metronome.isOnTime())
+                if (metronome != null && metronome.isOnTime())
                 {
                     OnCorrectKeyPress();
                     lastKey = "d";
@@ -79,9 +85,9 @@ public class PlayerMovement : MonoBehaviour
                 OnIncorrectKeyPress();
             }
         }
-        
+
         StepForwardConstantly();
-        
+
         if (score > maxScore)
         {
             score = maxScore;
@@ -90,8 +96,8 @@ public class PlayerMovement : MonoBehaviour
         {
             isGameOver = true;
         }
-        
-        
+
+
         UpdateScoreText();
 
     }
@@ -111,7 +117,16 @@ public class PlayerMovement : MonoBehaviour
         {
             float adjustedSpeed = GetAdjustedSpeed();
             playerRb.velocity = new Vector2(adjustedSpeed, playerRb.velocity.y);
+            if (adjustedSpeed > 0)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
         }
+
     }
 
     /// <summary>
@@ -128,14 +143,10 @@ public class PlayerMovement : MonoBehaviour
         {
             metronome.beatIndicator.color = metronome.correctColor;
         }
-
         hasPressedKey = true;
     }
 
-    /// <summary>
-    /// Appelé lorsque le joueur appuie sur la touche en dehors de la fenêtre de tolérance.
-    /// Réduit le score et change la couleur de l'indicateur visuel.
-    /// </summary>
+    // Appelé lorsque le joueur appuie sur la touche en dehors de la fenêtre de tolérance
     void OnIncorrectKeyPress()
     {
         Debug.Log("Touche appuyée au mauvais moment !");
@@ -146,14 +157,10 @@ public class PlayerMovement : MonoBehaviour
         {
             metronome.beatIndicator.color = metronome.wrongColor;
         }
-
         hasPressedKey = true;
     }
 
-    /// <summary>
-    /// Vérifie si le joueur n'a pas appuyé sur la touche pendant la fenêtre de tolérance.
-    /// Si le joueur n'a pas appuyé, une pénalité est appliquée au score.
-    /// </summary>
+    // Vérifie si le joueur n'a pas appuyé sur la touche pendant la fenêtre de tolérance
     public void CheckMissedKeyPress()
     {
         if (!hasPressedKey)
