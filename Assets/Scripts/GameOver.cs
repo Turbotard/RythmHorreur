@@ -28,7 +28,7 @@ public class GameOver : MonoBehaviour
     {
         anim.SetBool("Dead", true);
 
-        StartCoroutine(LoadSceneAfterDelay("GameOver", delayBeforeLoading));
+        SceneManager.LoadScene("GameOver");
     }
     private IEnumerator LoadSceneAfterDelay(string scene, float delay)
     {

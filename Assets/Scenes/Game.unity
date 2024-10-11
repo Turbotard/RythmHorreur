@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 205695772}
-  malusHp: 30
+  malusHp: 10
 --- !u!1 &205695768
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 205695771}
   - component: {fileID: 205695770}
   - component: {fileID: 205695769}
+  - component: {fileID: 205695777}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -653,6 +654,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &205695777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205695768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d4f288c890e27b45bbd120fac0df0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &321260092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1183,6 @@ GameObject:
   - component: {fileID: 927689435}
   - component: {fileID: 927689434}
   - component: {fileID: 927689433}
-  - component: {fileID: 927689432}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1178,19 +1190,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &927689432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 927689431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d4f288c890e27b45bbd120fac0df0fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerRb: {fileID: 205695774}
 --- !u!114 &927689433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1275,7 +1274,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!212 &927689436
 SpriteRenderer:
@@ -2045,7 +2044,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

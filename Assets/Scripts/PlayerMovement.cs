@@ -133,7 +133,6 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void OnCorrectKeyPress()
     {
-        Debug.Log("Touche appuyée au bon moment !");
         score += 3f;
         UpdateScoreText();
 
@@ -147,7 +146,6 @@ public class PlayerMovement : MonoBehaviour
     // Appelé lorsque le joueur appuie sur la touche en dehors de la fenêtre de tolérance
     void OnIncorrectKeyPress()
     {
-        Debug.Log("Touche appuyée au mauvais moment !");
         score -= 1.5f;
         UpdateScoreText();
 
@@ -163,7 +161,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!hasPressedKey)
         {
-            Debug.Log("Touche manquée !");
             score -= 2f;
             UpdateScoreText();
 
@@ -199,6 +196,6 @@ public class PlayerMovement : MonoBehaviour
 
     public float GetAdjustedSpeed()
     {
-        return baseSpeed + (score - 50f) * scoreMultiplier;
+        return baseSpeed + (score - 25f) * scoreMultiplier;
     }
 }

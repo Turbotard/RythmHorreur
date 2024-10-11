@@ -66,7 +66,6 @@ public class Screamer : MonoBehaviour
         if (playerMovement != null)
         {
             playerScore = playerMovement.GetScore();
-            Debug.Log("Player Score : " + playerScore);
         }
         else
         {
@@ -79,7 +78,6 @@ public class Screamer : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log(playerScore);
             // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %.
             if (playerScore > redIntervale && playerScore <= yellowIntervale)
             {

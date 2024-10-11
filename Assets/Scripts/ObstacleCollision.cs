@@ -13,22 +13,16 @@ public class ObstacleCollision : MonoBehaviour
         {
             Vector3 playerPosition = collision.transform.position;
             Vector3 obstaclePosition = transform.position;
-            Debug.Log("Collision detected");
             
-            Debug.Log("Player X : " + playerPosition.x + "Player Y : "+ playerPosition.y + " Obstacle : " + obstaclePosition);
-            // Vérifiez si le joueur touche l'obstacle à partir de la gauche
-            if (playerPosition.y > obstaclePosition.y + 0.25f)// Le joueur est au-dessus de l'obstacle
-            {
-                Debug.Log("haut");
-               
-            }
             // Vérifiez si le joueur touche l'obstacle par le haut
-            else if (playerPosition.x < obstaclePosition.x) // Le joueur est à gauche de l'obstacle
+            if (playerPosition.x < obstaclePosition.x + 0.25f) // Le joueur est à gauche de l'obstacle
             {
-                Debug.Log("gauche.");
                 Destroy(gameObject); // Détruire l'obstacle
                 player.SetScore(- malusHp);
-                Debug.Log(player.GetScore());
+            }
+            else
+            {
+                Destroy(gameObject, 2f);
             }
             
         }
