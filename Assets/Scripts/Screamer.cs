@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class Screamer : MonoBehaviour
 {
     /// <summary>
-    /// Le score actuel du joueur, mis à jour depuis Metronome.
+    /// Le score actuel du joueur, mis à jour depuis PlayerMovement.
     /// </summary>
-    public float playerScore;
+    public float playerScore= 50;
 
     /// <summary>
     /// Seuils pour déclencher les événements de screamer.
@@ -42,14 +42,13 @@ public class Screamer : MonoBehaviour
     private AudioSource audioSource;
 
     private bool isFlashing = false;
-    
-    [SerializeField] private UserExperienceMetronome metronome;
-    public PlayerMovement PlayerMovement;
-    
-    
+
+    public PlayerMovement playerMovement;
 
     private void Start()
     {
+        // Récupérer le score actuel du joueur depuis le script PlayerMovement.
+        playerScore = playerMovement.GetScore();
         // Démarrer la coroutine pour gérer les chances de screamer.
         StartCoroutine(CheckFlashChance());
 
@@ -60,18 +59,18 @@ public class Screamer : MonoBehaviour
             Debug.LogError("Aucun AudioSource trouvé sur le GameObject. Veuillez en ajouter un.");
         }
     }
-    // Update is called once per frame 
+
     private void Update()
     {
-        // Mettre à jour le score depuis le script Metronome.
-        if (metronome != null)
+        // Mettre à jour le score depuis le script PlayerMovement.
+        if (playerMovement != null)
         {
-            playerScore = PlayerMovement.GetScore();
+            playerScore = playerMovement.GetScore();
             Debug.Log("Player Score : " + playerScore);
         }
         else
         {
-            Debug.LogError("Aucun script Metronome trouvé. Veuillez ajouter un script Metronome au GameObject.");
+            Debug.LogError("Aucun script PlayerMovement trouvé. Veuillez ajouter un script PlayerMovement au GameObject.");
         }
     }
 
@@ -81,24 +80,25 @@ public class Screamer : MonoBehaviour
         while (true)
         {
             Debug.Log(playerScore);
-            // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
-            if (playerScore >= 0 && playerScore < redIntervale)
+            // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %.
+            if (playerScore > redIntervale && playerScore <= yellowIntervale)
             {
-                yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(5f);
+                if (UnityEngine.Random.value < 0.25f && !isFlashing)
+                {
+                    StartCoroutine(Flash(yellowZoneSounds));
+                }
+            }
+            // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
+            else if (playerScore >= 0f && playerScore < redIntervale)
+            {
+                yield return new WaitForSeconds(3f);
                 if (UnityEngine.Random.value < 0.5f && !isFlashing)
                 {
                     StartCoroutine(Flash(redZoneSounds));
                 }
             }
-            // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %.
-            else if (playerScore >= redIntervale && playerScore < yellowIntervale)
-            {
-                yield return new WaitForSeconds(0.5f);
-                if (UnityEngine.Random.value < 1f && !isFlashing)
-                {
-                    StartCoroutine(Flash(yellowZoneSounds));
-                }
-            }
+
             // Zone verte : aucun flash.
             else
             {

@@ -10,6 +10,16 @@ public class PlayButton : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    public void Settings()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+    
+    public void Home()
+    {
+        SceneManager.LoadScene("Home");
+    }
+
     public void QuitGame()
     {
         Application.Quit();

@@ -15,11 +15,18 @@ public class PlayerMovement : MonoBehaviour
     public static bool isGameOver;
     public Screamer screamer; // Référence au script Screamer pour gérer le screamer indépendamment.
     public UserExperienceMetronome metronome;
-    private bool hasPressedKey; // Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
+    private bool canPressKey;  // Indicate si le joueur peut appuyer sur la touche dans la fenêtre de tolérance.
+    private bool hasPressedKey;// Indique si le joueur a appuyé sur la touche pendant la fenêtre de tolérance.
     private float score = 50f;
+    private float minScore = 0f;
+    private float maxScore = 100f;
+    public float baseSpeed = 1f; // Vitesse de base du joueur
+    public float scoreMultiplier = 0.15f; // Multiplicateur qui ajuste la vitesse en fonction du score    
     public GameOver gameover;
-    private int maxScore = 100;
 
+    /// <summary>
+    /// Texte UI affichant le score du joueur.
+    /// </summary>
     public TMP_Text scoreText;// Score actuel du joueur.
 
     private void Awake()
@@ -77,39 +84,47 @@ public class PlayerMovement : MonoBehaviour
         }
         
         StepForwardConstantly();
-
+        
         if (score > maxScore)
         {
             score = maxScore;
         }
-        if (score <= 0)
+        if (score <= minScore)
         {
             isGameOver = true;
         }
+        
+        
+        UpdateScoreText();
 
-        if (isGameOver && gameover != null)
+    }
+
+    private void FixedUpdate()
+    {
+        if (isGameOver)
         {
             gameover.Gameover();
         }
-
-        UpdateScoreText();
     }
 
-    // Déplace le joueur constamment à une vitesse ajustée selon son score
+    // Déplace le joueur vers l'avant d'une certaine distance
     void StepForwardConstantly()
     {
-        if (playerRb != null && speedController != null)
+        if (playerRb != null)
         {
-            float adjustedSpeed = speedController.GetAdjustedSpeed();
-            playerRb.MovePosition(playerRb.position + new Vector2(adjustedSpeed * Time.deltaTime, 0));
+            float adjustedSpeed = GetAdjustedSpeed();
+            playerRb.velocity = new Vector2(adjustedSpeed, playerRb.velocity.y);
         }
     }
 
-    // Appelé lorsque le joueur appuie sur la touche au bon moment
+    /// <summary>
+    /// Appelé lorsque le joueur appuie sur la touche au bon moment.
+    /// Augmente le score et change la couleur de l'indicateur visuel.
+    /// </summary>
     public void OnCorrectKeyPress()
     {
         Debug.Log("Touche appuyée au bon moment !");
-        score += 10f;
+        score += 3f;
         UpdateScoreText();
 
         if (metronome.beatIndicator != null)
@@ -123,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
     void OnIncorrectKeyPress()
     {
         Debug.Log("Touche appuyée au mauvais moment !");
-        score -= 2f;
+        score -= 1.5f;
         UpdateScoreText();
 
         if (metronome.beatIndicator != null)
@@ -139,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
         if (!hasPressedKey)
         {
             Debug.Log("Touche manquée !");
-            score -= 5f;
+            score -= 2f;
             UpdateScoreText();
 
             if (metronome.beatIndicator != null)
@@ -160,8 +175,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetScore(float numMod)
+    {
+        score += numMod;
+    }
+
     public float GetScore()
     {
         return score;
+    }
+
+    public float GetAdjustedSpeed()
+    {
+        Debug.Log("Vitesse ajustée appelée : " + (baseSpeed + (score - 50f) * scoreMultiplier));
+        return baseSpeed + (score - 50f) * scoreMultiplier;
     }
 }

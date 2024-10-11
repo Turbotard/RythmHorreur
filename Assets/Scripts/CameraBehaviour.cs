@@ -13,7 +13,7 @@ public class CameraBehaviour : MonoBehaviour
 
     void LateUpdate()
     {
-        // Récupérer le score actuel du joueur depuis UserExperienceMetronome
+        // Récupérer le score actuel du joueur
         float playerScore = movement.GetScore();
 
         // Mapper le score du joueur à une position horizontale inversée
