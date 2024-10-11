@@ -18,6 +18,7 @@ public class CombinationJump : MonoBehaviour
     }; // Les touches possibles pour la combinaison    
     private List<string> currentCombination; // La combinaison actuelle
     private int currentIndex = 0; // Indice pour savoir où on est dans la combinaison
+    private Animator anim;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class CombinationJump : MonoBehaviour
 
         GenerateNewCombination();  // Génère une première combinaison aléatoire
         DisplayCombination();      // Affiche la combinaison
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -94,6 +96,7 @@ public class CombinationJump : MonoBehaviour
         {
             playerRb.velocity = new Vector2(playerRb.velocity.x, obstacleHandler.jumpForce);
             Debug.Log("Saut réussi !"); 
+            anim.SetTrigger("Jump");
         }
     }
 }

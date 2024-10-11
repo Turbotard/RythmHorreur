@@ -32,11 +32,11 @@ public class ObstacleHandling : MonoBehaviour
 
         Debug.DrawRay(transform.position, Vector2.down * groundCheckDistance, isGrounded ? Color.green : Color.red);
 
-        if (isGrounded)
-        {
-            playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
-            anim.SetTrigger("Jump");
-        }
+        // if (isGrounded)
+        // {
+        //     playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
+        //     anim.SetTrigger("Jump");
+        // }
         anim.SetBool("Grounded", isGrounded);
 
     }
