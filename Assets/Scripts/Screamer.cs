@@ -14,7 +14,7 @@ public class Screamer : MonoBehaviour
     /// Seuils pour déclencher les événements de screamer.
     /// </summary>
     public int redIntervale = 20; // Seuil de la zone rouge
-    public int yellowIntervale = 70; // Seuil de la zone jaune
+    public int yellowIntervale = 50; // Seuil de la zone jaune
 
     /// <summary>
     /// Image utilisée pour le screamer.
@@ -47,6 +47,8 @@ public class Screamer : MonoBehaviour
 
     private void Start()
     {
+        // Récupérer le score actuel du joueur depuis le script PlayerMovement.
+        playerScore = playerMovement.GetScore();
         // Démarrer la coroutine pour gérer les chances de screamer.
         StartCoroutine(CheckFlashChance());
 
@@ -81,8 +83,8 @@ public class Screamer : MonoBehaviour
             // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %.
             if (playerScore > redIntervale && playerScore <= yellowIntervale)
             {
-                yield return new WaitForSeconds(1f);
-                if (UnityEngine.Random.value < 1f && !isFlashing)
+                yield return new WaitForSeconds(5f);
+                if (UnityEngine.Random.value < 0.25f && !isFlashing)
                 {
                     StartCoroutine(Flash(yellowZoneSounds));
                 }
@@ -90,8 +92,8 @@ public class Screamer : MonoBehaviour
             // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
             else if (playerScore >= 0f && playerScore < redIntervale)
             {
-                yield return new WaitForSeconds(1f);
-                if (UnityEngine.Random.value < 1f && !isFlashing)
+                yield return new WaitForSeconds(3f);
+                if (UnityEngine.Random.value < 0.5f && !isFlashing)
                 {
                     StartCoroutine(Flash(redZoneSounds));
                 }

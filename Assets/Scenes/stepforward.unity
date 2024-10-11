@@ -1306,7 +1306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10a677adb234131a46b80ae56490ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScore: 0
+  playerScore: 50
   redIntervale: 20
   yellowIntervale: 50
   flashImage: {fileID: 1858590771}
@@ -1677,7 +1677,7 @@ MonoBehaviour:
   stepDistance: 2
   screamer: {fileID: 1070176397}
   metronome: {fileID: 1125800954}
-  baseSpeed: 4
+  baseSpeed: 1
   scoreMultiplier: 0.15
   gameover: {fileID: 1388201868}
   scoreText: {fileID: 0}
@@ -1840,9 +1840,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642e6c399b534499796e5bad213125cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 3
-  scoreMultiplier: 10
-  score: 50
 --- !u!114 &1394501092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2822,7 +2819,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1992006822
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2915,7 +2912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyRb: {fileID: 2000042854}
-  speed: 2
+  speed: 4
 --- !u!61 &2000042853
 BoxCollider2D:
   m_ObjectHideFlags: 0
