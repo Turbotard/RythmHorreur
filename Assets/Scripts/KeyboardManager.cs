@@ -55,4 +55,16 @@ public class KeyboardManager : MonoBehaviour
         }
         return key;  // Si QWERTY, pas de changement
     }
+    
+    public void SetKeyboardAZERTY()
+    {
+        Debug.Log("AZERTY");
+        playerKeyboardLayout = KeyboardLayout.AZERTY;
+    }
+    
+    public void SetKeyboardQWERTY()
+    {
+        Debug.Log("QWERTY");
+        playerKeyboardLayout = KeyboardLayout.QWERTY;
+    }
 }
