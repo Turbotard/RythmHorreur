@@ -14,13 +14,8 @@ public class CombinationJump : MonoBehaviour
     public KeyboardManager keyboardManager;    // Référence au gestionnaire de clavier
 
     private string[] possibleKeys = { 
-        "B", "C", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", 
-        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
-        "UpArrow", "DownArrow", "LeftArrow", "RightArrow", 
-        "Space", "Enter", "Backspace", "Tab", "Escape", "Shift", "Control", "Alt", "CapsLock", "NumLock", "ScrollLock", 
-        "Insert", "Delete", "Home", "End", "PageUp", "PageDown", 
-        "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"
-    };  // Les touches possibles pour la combinaison    
+        "B", "C", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+    }; // Les touches possibles pour la combinaison    
     private List<string> currentCombination; // La combinaison actuelle
     private int currentIndex = 0; // Indice pour savoir où on est dans la combinaison
 
