@@ -1040,7 +1040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a877a7ffee1419146975075aa6d634bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerKeyboardLayout: 0
+  playerKeyboardLayout: 1
 --- !u!4 &997869523
 Transform:
   m_ObjectHideFlags: 0
