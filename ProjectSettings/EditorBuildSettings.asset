@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Settings.unity
     guid: 6256f1ed7f51e9f489ed72130e799116
+  - enabled: 1
+    path: Assets/Scenes/stepforward.unity
+    guid: 702255772f5970b4da94bf7f4db5c2a3
   m_configObjects: {}

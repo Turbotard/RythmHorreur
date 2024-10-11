@@ -8,13 +8,13 @@ public class Screamer : MonoBehaviour
     /// <summary>
     /// Le score actuel du joueur, mis à jour depuis PlayerMovement.
     /// </summary>
-    public float playerScore;
+    public float playerScore= 50;
 
     /// <summary>
     /// Seuils pour déclencher les événements de screamer.
     /// </summary>
     public int redIntervale = 20; // Seuil de la zone rouge
-    public int yellowIntervale = 50; // Seuil de la zone jaune
+    public int yellowIntervale = 70; // Seuil de la zone jaune
 
     /// <summary>
     /// Image utilisée pour le screamer.
@@ -78,24 +78,25 @@ public class Screamer : MonoBehaviour
         while (true)
         {
             Debug.Log(playerScore);
-            // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
-            if (playerScore >= 0f && playerScore < redIntervale)
-            {
-                yield return new WaitForSeconds(10f);
-                if (UnityEngine.Random.value < 0.5f && !isFlashing)
-                {
-                    StartCoroutine(Flash(redZoneSounds));
-                }
-            }
             // Zone jaune : vérifier toutes les 10 secondes avec une chance de 25 %.
-            else if (playerScore >= redIntervale && playerScore < yellowIntervale)
+            if (playerScore > redIntervale && playerScore <= yellowIntervale)
             {
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1f);
                 if (UnityEngine.Random.value < 1f && !isFlashing)
                 {
                     StartCoroutine(Flash(yellowZoneSounds));
                 }
             }
+            // Zone rouge : vérifier toutes les 3 secondes avec une chance de 50 %.
+            else if (playerScore >= 0f && playerScore < redIntervale)
+            {
+                yield return new WaitForSeconds(1f);
+                if (UnityEngine.Random.value < 1f && !isFlashing)
+                {
+                    StartCoroutine(Flash(redZoneSounds));
+                }
+            }
+
             // Zone verte : aucun flash.
             else
             {
